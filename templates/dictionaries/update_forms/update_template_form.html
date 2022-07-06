@@ -1,0 +1,49 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+{{ model_name }}: {{ object }}
+{% endblock %}
+
+{% block page_title_content %}
+{{ model_name }}: {{ object }}
+{% endblock %}
+
+{% block css_styles %}
+	{{ block.super }}
+	{% load static %}
+	<link href="{% static "css/update.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block front %}
+
+<h1 class="model_name">{{ model_name }}: <span class="object_title"><a {% if object.get_content_list_url %}href="{{object.get_content_list_url}}"{% endif %}>{{ object }}</a></span></h1>
+
+{% if message %}
+<p class="warning">{{ message }}</p>
+{% endif %}
+
+{% block containers_button %}
+{% endblock %}
+
+{% if created_at %}
+	<p>Created at: {{created_at}}</p>
+{% endif %}
+
+{% block form %}
+<form id="form" method="post">
+	{% csrf_token %}
+	<table>
+	{{ form.as_table }}
+	</table>
+	<input type="submit" value="Update">
+</form>
+{% endblock %}
+
+{% block back_button %}
+{% if back_name %}
+<hr>
+<h3 class="big_button"><a href="{{ object.get_list_url }}">Back to {{ back_name }} list</a></h3>
+{% endif %}
+{% endblock %}
+
+{% endblock %}

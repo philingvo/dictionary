@@ -1,0 +1,19 @@
+{% extends "dictionaries/content_lists/list_without_container_base.html" %}
+
+{% block page_title_content %}
+Philingvo Subjects
+{% endblock %}
+
+{% block activate %}
+	{% if object.storage %}
+		{% if object.position > 0 %}
+		<td class="activate_button">
+			<a href="{{object.get_activate_url}}">Activate</a>
+		</td>
+		{% else %}
+		<td class="activate_button blocked_button">
+			<a>Activate</a>
+		</td>
+		{% endif %}
+	{% endif %}
+{% endblock %}

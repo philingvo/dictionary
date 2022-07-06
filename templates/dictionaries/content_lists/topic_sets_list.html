@@ -1,0 +1,17 @@
+{% extends "dictionaries/content_lists/list_with_container_base.html" %}
+
+{% block color %}
+<td class="notes_available">
+	<input data-id="{{object.get_item_id}}" type="checkbox"
+	{% if object.set.notes_available %} checked title="Available for notes"
+	{% else %} title="Not available for notes"
+	{% endif %}>
+</td>
+{{block.super}}
+{% endblock %}
+
+{% block scrips_block %}
+{{block.super}}
+{% load static %}
+<script src={% static "js/assign_set_available_for_notes.js" %}></script>
+{% endblock %}

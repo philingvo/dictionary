@@ -1,0 +1,2270 @@
+<head>
+	<style>
+		body {
+			margin: 0;
+			zoom: 250%;
+			background-color: rgba(65,105,225);
+		}
+
+		#input_window>div {
+			padding: 1%;
+			text-align: center;
+		}
+
+		#input_window>div>div div {
+			display: inline-block;
+			width: 30%;
+		}
+
+		#input_text_area {
+			width: 100%;
+			height: 60%;
+			background-color: rgba(65,105,225);
+		}
+
+		.window_heading {
+			text-align: center;
+			padding: 1%;
+		}
+
+		.popup_window {
+			top: 0;
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(65,105,225,0.95);
+			display: none;
+		}
+
+		#main_window {
+			margin: 1%;
+		}
+
+		#input_button {
+			border: 1px black solid;
+		}
+
+		#text_container {
+			background-color: rgba(204,229,255);
+		}
+
+		.panel {
+			color: white;
+			text-transform: uppercase;
+			border-radius: 5px;
+			padding: 0 5px 0 5px;
+		}
+
+		.button {
+			cursor: pointer;
+		}
+
+		.symbol {
+			display: inline;
+		}
+
+		.panel_element {
+			display: inline-block;
+			min-width: 20px;
+			height: 20px;
+			border: 1px solid black;
+			margin: 1px;
+			text-align: center;
+			border-radius: 5px;
+		}
+
+		.color_element {
+			border-color: transparent;
+			border-radius: 5px;
+		}
+
+		.default {
+			border-color: gray;
+		}
+
+		#selection_panel {
+			display: none;
+		}
+
+		.choosen_element {
+			border-color: black;
+		}
+
+		.main_red {
+			color: red;
+		}
+
+		.main_orange {
+			color: orange;
+		}
+
+		.main_green {
+			color: green;
+		}
+
+		.main_blue {
+			color: blue;
+		}
+
+		.main_yellow {
+			color: yellow;
+		}
+
+		.main_purple {
+			color: purple;
+		}
+
+		.background_red {
+			background-color: red;
+		}
+
+		.background_orange {
+			background-color: orange;
+		}
+
+		.background_green {
+			background-color: green;
+		}
+
+		.background_blue {
+			background-color: blue;
+		}
+
+		.background_yellow {
+			background-color: yellow;
+		}
+
+		.background_purple {
+			background-color: purple;
+		}
+
+		.stressed {
+			background-color: darkblue;
+			color: white;
+		}
+
+		.r_l_direction {
+			direction: rtl;
+		}
+
+		.l_r_direction {
+			direction: ltr;
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="input_window" class="popup_window">
+		<div>
+			<div class="panel window_heading background_orange">Input or insert text here!</div>
+			<textarea id="input_text_area"></textarea>
+			<div><input id="input_saved_message" type="checkbox"><span>Input as a formatted message</span></div>
+			<div>
+				<div id="erase_input_text" class="panel button background_orange">Erase</div>
+				<div id="input_this_text" class="panel button background_green">Input</div>
+				<div id="cancel_text" class="panel button background_red">Cancel</div>
+			</div>
+		</div>
+	</div>
+	<!-- <div id="message_properties" class="popup_window"> -->
+		<!-- <div class="panel window_heading background_green">Message properties</div> -->
+		<!-- <div class="panel background_purple">Cycles:</div> -->
+		<!-- <input id="cycles" type="number" value="1" step="1" min="1"> -->
+		<!-- <div class="panel background_orange">Choose mode:</div> -->
+		<!-- <select id="choose-mode" title="Choose mode">
+			<option value="loop_with_gap">Loop with a gap</option>
+			<option value="loop">Loop</option>
+			<option value="single">Single</option>
+		</select> -->
+		<!-- <div><input id="change_direction" type="checkbox"><span>Change scrolling direction</span></div> -->
+		<!-- <div><input id="upper_case" type="checkbox"><span>Upper case</span></div> -->
+		<!-- <div><input id="add_to_store" type="checkbox"><span>Don't add message in the Store</span></div> -->
+		<!-- <div id="send_message_with_properties" class="panel button background_blue">Send</div> -->
+		<!-- <div id="close_message_properties_window" class="panel button background_red">Back to main window</div> -->
+	<!-- </div> -->
+	<!-- <div id="control_window" class="popup_window">
+		<div class="panel window_heading background_purple">Control panel</div> -->
+		<!-- <div id="faster" class="panel button background_red">Faster</div> -->
+		<!-- <div id="slower" class="panel button background_green">Slower</div> -->
+		<!-- <input id="delay_value" type="number" value="0.05" step="0.01" min="0" max="1"> -->
+		<!-- <div id="set_delay_time" class="panel button background_orange">Set delay time</div> -->
+		<!-- <div id="pause" class="panel button background_blue">Pause</div> -->
+		<!-- <div id="stop" class="panel button background_red">Stop</div> -->
+		<!-- <div id="wait" class="panel button background_purple">Wait</div> -->
+		<!-- <div id="off" class="panel button background_red">OFF</div> -->
+		<!-- <div id="on" class="panel button background_green">ON</div> -->
+		<!-- <div id="standby" class="panel button background_blue">Standby</div> -->
+		<!-- <div id="show_date_time" class="panel button background_orange">Show date and time</div> -->
+		<!-- <div id="close_control_window" class="panel button background_red">Back to main window</div> -->
+	<!-- </div> -->
+	<!-- <div id="messages_window" class="popup_window"> -->
+		<!-- <div class="panel window_heading background_blue">Work with messages</div> -->
+		<!-- <div id="next_message" class="panel button background_green">Next message</div> -->
+		<!-- <div id="previous_message" class="panel button background_red">Previous message</div> -->
+		<!-- <div id="next_received_message" class="panel button background_purple">Next received message</div> -->
+		<!-- <div id="previous_received_message" class="panel button background_orange">Previous received message</div> -->
+		<!-- <div id="change_repeat_message_status" class="panel button background_blue">Change repeat message status</div> -->
+		<!-- <div id="change_refresh_message_status" class="panel button background_green">Change refresh message status</div> -->
+		<!-- <div id="change_deny_receiving_status" class="panel button background_purple">Change deny receiving status</div> -->
+		<!-- <div id="refresh_main_output_process_properties_from_messages" class="panel button background_orange">Refresh main output process properties</div> -->
+		<!-- <div id="close_messages_window" class="panel button background_red">Back to main window</div> -->
+	<!-- </div> -->
+
+	<!-- <div id="processes_window" class="popup_window"> -->
+		<!-- <div class="panel window_heading background_green">Work with processes</div>
+		<div class="panel background_blue">Choose working process:</div>
+		<select id="working_processes_names" title="Choose working process">
+		</select> -->
+		<!-- <div id="start_working_process_with_begining" class="panel button background_purple">Start working process with 
+		begining</div> -->
+		<!-- <div id="set_next_process" class="panel button background_green">Next process</div> -->
+		<!-- <div id="set_previous_process" class="panel button background_red">Previous process</div> -->
+		<!-- <div id="refresh_main_output_process_properties_from_processes" class="panel button background_orange">Refresh main output process properties</div> -->
+		<!-- <div id="close_processes_window" class="panel button background_red">Back to main window</div> -->
+	<!-- </div> -->
+
+	<!-- <div id="volumes_window" class="popup_window"> -->
+		<!-- <div class="panel window_heading background_orange">Work with volumes</div>
+		<div class="panel background_purple">Choose library volume:</div> -->
+		<!-- <select id="volumes_names" title="Choose volume">
+			<option value="none">None</option>
+		</select> -->
+		<!-- <div id="volume_sources_header" class="panel background_purple hidden">Choose library source:</div> -->
+		<!-- <select id="volume_sources" class="hidden" title="Choose volume source content">
+		</select> -->
+		<!-- <div id="send_message_to_volumes" class="panel button background_blue hidden">Send to library source</div> -->
+		<!-- <div id="save_volume" class="panel button background_green hidden">Save current libraray volume</div> -->
+		<!-- <div id="save_all_messages" class="panel button background_orange">Save all volumes</div> -->
+		<!-- <div id="refresh_volume_sources" class="panel button background_blue hidden">Refresh sources</div> -->
+		<!-- <div id="download_message" class="panel button background_purple hidden">Download this message</div> -->
+		<!-- <div id="show_message_from_volume" class="panel button background_green hidden">Show this message</div> -->
+		<!-- <div id="close_volumes_window" class="panel button background_red">Back to main window</div> -->
+	<!-- </div> -->
+	<form id="csrf_token" method="post" action="/save_text_styles/" class="hidden">{% csrf_token %}</form>
+	<div id="part_id" class="hidden">{{part_id}}</div>
+	<div id="main_window">
+		<div id="text_direction" class="panel button background_purple"></div>
+		<div id="mode" class="panel button background_green"></div>
+		<div id="text_panel">
+			<div id="text_container">
+				<div id="input_button" class="symbol button">*</div>
+			</div>
+		</div>
+		<div id="color_object_panel">
+			<div id="color_target" class="panel_element button"></div>
+			<div id="color_object" class="panel_element button"></div>
+		</div>
+		<div id="palette_panel">
+			<div id="red" class="panel_element button color_element background_red">R</div>
+			<div id="orange" class="panel_element button color_element background_orange">O</div>
+			<div id="yellow" class="panel_element button color_element background_yellow">Y</div>
+			<div id="green" class="panel_element button color_element background_green">G</div>
+			<div id="blue" class="panel_element button color_element background_blue">B</div>
+			<div id="purple" class="panel_element button color_element background_purple">P</div>
+			<div id="default" class="panel_element button color_element default">D</div>
+		</div>
+		<div id="decoration_panel">
+			<div id="decoration_space" class="panel_element button default">&ensp;</div>
+			<div id="decoration_stress" class="panel_element button default">'</div>
+			<div id="delete_decoration" class="panel_element button">Delete</div>
+		</div>
+		<div id="selection_panel">
+			<div id="color" class="panel_element button">Color selection</div>
+			<div id="cancel_selection" class="panel_element button">Cancel</div>
+		</div>
+		<div id="erase" class="panel button background_red">ERASE</div>
+		<div id="show_format" class="panel button background_orange">SHOW FORMAT</div>
+		<!-- <div id="show_message_properties" class="panel button background_green">MESSAGE PROPERTIES</div>
+		<div id="show_control" class="panel button background_purple">CONTROL PANEL</div>
+		<div id="show_messages" class="panel button background_blue">WORK WITH MESSAGES</div>
+		<div id="show_process" class="panel button background_green">WORK WITH PROCESSES</div>
+		<div id="show_volumes_window" class="panel button background_orange">WORK WITH VOLUMES</div> -->
+		<div id="send" class="panel button background_blue">SAVE</div>
+	</div>
+</body>
+<script>
+String.prototype.capitalize = function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+function extend_dict(obj, src) {
+	Object.keys(src).forEach(function(key) { obj[key] = src[key]; });
+	return obj;
+}
+
+function cleanNodeContent(parentNode) {
+	while (parentNode.firstChild) {
+		parentNode.removeChild(parentNode.firstChild);
+	};
+};
+
+// window.mainOutputWorkingProcessPropertiesDict = {};
+// window.messageStatusesDict = {};
+// window.workingProcessesNames = [];
+// window.volumeNames = [];
+// getMainOutputWorkingProcessProperties();
+
+var csrf_token = document.getElementById("csrf_token").querySelector('input').value;
+definePartID();
+downloadPart();
+
+setMainWindowAsOpened();
+var popUpWindowsKeyEventFunction = {'inputWindow': {closeWindowFunction: closeInputWindowEvent,
+													enterFunction: handleInputedText},
+								// 'controlWindow': {closeWindowFunction: closeControlWindow,
+								// 				enterFunction: setDelayTime},
+								// 'messagePropertiesWindow':{closeWindowFunction: closeMessagePropertiesWindow,
+								// 							enterFunction: sendTextMessage}
+};
+
+var requestModes = {'string': {'function': createStringMessage,
+								'url': `${location.origin}/save_corrected_text_part/${part_id}/`},
+					// 'control': {'function': controlMessage,
+					// 			'url': location.origin},
+					// 'process': {'function': processMessage,
+					// 			'url': location.origin},
+					// 'volumes': {'function': volumesControlMessage,
+					// 			'url': location.origin + '/volumes'},
+					// 'volumes_string': {'function': createStringMessage,
+					// 			'url': location.origin + '/volumes'}
+};
+
+var sendingAvailable = true;
+var selectionMode = false;
+var mode, symbols, mainColor, backgroundColor, lettersColors, cursorPosition, currentColor, colorClass, decorations;
+setDefaultValues();
+var colorObjectModes = [{title: 'Letters',
+						object: 'main_color'},
+						{title: 'Background',
+						object: 'background_color'}];
+var colorClasses = {main_color: {red: 'main_red',
+								orange: 'main_orange',
+								green: 'main_green',
+								blue: 'main_blue',
+								yellow: 'main_yellow',
+								purple: 'main_purple'},
+					background_color: {red: 'background_red',
+										orange: 'background_orange',
+										green: 'background_green',
+										blue: 'background_blue',
+										yellow: 'background_yellow',
+										purple: 'background_purple'}};
+
+// WINDOWS
+var inputWindow = document.getElementById("input_window");
+var messagePropertiesWindow = document.getElementById('message_properties');
+// var controlWindow = document.getElementById("control_window");
+// var messagesWindow = document.getElementById("messages_window");
+// var processesWindow = document.getElementById("processes_window");
+// var volumesWindow =document.getElementById("volumes_window");
+var inputButton = document.getElementById("input_button");
+inputButton.onclick = openInputWindow;
+//
+
+//MAIN WINDOW
+var textContainer = document.getElementById("text_container");
+textContainer.onselectstart = falseFunction;
+insertStartSimbol();
+var cursorElement = insertCursor();
+
+var textDirectionButton = document.getElementById("text_direction");
+textDirectionButton.onclick = changeTextDirectionMode;
+var textDirectionModeNumber = 0;
+var textDirectionModes = [{title: "Left to Right Direction",
+							className: "l_r_direction"},
+							{title: "Right to Left Direction",
+							className: "r_l_direction"}]
+setTextDirectionMode();
+
+var colorObjectPanel = document.getElementById("color_object_panel");
+var paletteObjectPanel = document.getElementById("palette_panel");
+var decorationObjectPanel = document.getElementById("decoration_panel");
+var eraseAllButton = document.getElementById("erase");
+eraseAllButton.onclick = eraseAll;
+var showFormatButton = document.getElementById('show_format');
+showFormatButton.onclick = showFormat;
+// var showMessagePropertiesWindowButton = document.getElementById('show_message_properties');
+// showMessagePropertiesWindowButton.onclick = showMessagePropertiesWindow;
+// var showControlWindowButton = document.getElementById('show_control');
+// showControlWindowButton.onclick = showControlWindow;
+// var showMessagesButton = document.getElementById('show_messages');
+// showMessagesButton.onclick = showMessagesWindow;
+// var showProcessesButton = document.getElementById('show_process');
+// showProcessesButton.onclick = showProcessesWindow;
+// var showVolumesWindowButton = document.getElementById('show_volumes_window');
+// showVolumesWindowButton.onclick = showVolumesWindow;
+var sendMessageButton = document.getElementById("send");
+sendMessageButton.onclick = sendTextMessage;
+//
+
+// INPUT WINDOW
+var inputTextArea = document.getElementById("input_text_area");
+var inputSavedCheckBox = document.getElementById("input_saved_message");
+var eraseInputTextButton = document.getElementById("erase_input_text");
+eraseInputTextButton.onclick = eraseInputTextEvent;
+var inputThisTextButton = document.getElementById("input_this_text");
+inputThisTextButton.onclick = handleInputedText;
+var cancelTextButton = document.getElementById("cancel_text");
+cancelTextButton.onclick = closeInputWindowEvent;
+//
+
+// MESSAGE PROPERTIES
+// var cycles = document.getElementById("cycles");
+// var output_mode = document.getElementById("choose-mode");
+// var sendMessageWithPropertiesButton = document.getElementById("send_message_with_properties");
+// sendMessageWithPropertiesButton.onclick = sendTextMessage;
+// var closeMessagePropertiesWindowButton = document.getElementById("close_message_properties_window");
+// closeMessagePropertiesWindowButton.onclick = closeMessagePropertiesWindow;
+// var changeDirectionCheckBox = document.getElementById("change_direction");
+// var upperCaseCheckBox = document.getElementById("upper_case");
+// var dontAddInStoreCheckBox = document.getElementById("add_to_store");
+//
+
+//CONTROL WINDOW
+// var fasterButton = document.getElementById("faster");
+// fasterButton.onclick = speedFaster;
+// var slowerButton = document.getElementById("slower");
+// slowerButton.onclick = speedSlower;
+// var delayTimeField = document.getElementById("delay_value");
+// var setDelayTimeButton = document.getElementById("set_delay_time");
+// setDelayTimeButton.onclick = setDelayTime;
+// var pauseButton = document.getElementById("pause");
+// pauseButton.onclick = pause;
+// var stopButton = document.getElementById("stop");
+// stopButton.onclick = sendCommand;
+// var waitButton = document.getElementById("wait");
+// waitButton.onclick = sendCommand;
+// var offButton = document.getElementById("off");
+// offButton.onclick = sendCommand;
+// var onButton = document.getElementById("on");
+// onButton.onclick = sendCommand;
+// standbyButton = document.getElementById("standby");
+// standbyButton.onclick = standby;
+// var showDateTimeButton = document.getElementById("show_date_time");
+// showDateTimeButton.onclick = showDateTime;
+// var wokingProcessesNamesSelect = document.getElementById("working_processes_names");
+// wokingProcessesNamesSelect.onchange = chooseWorkingProcess;
+// var closeControlWindowButton = document.getElementById("close_control_window");
+// closeControlWindowButton.onclick = closeControlWindow;
+//
+
+//WORK WITH MESSAGES
+// var nextMessageButton = document.getElementById("next_message");
+// nextMessageButton.onclick = nextMessage;
+// var previousMessageButton = document.getElementById("previous_message");
+// previousMessageButton.onclick = previousMessage;
+// var nextReceivedMessageButton = document.getElementById('next_received_message');
+// nextReceivedMessageButton.onclick = nextReceivedMessage;
+// var previousReceivedMessageButton = document.getElementById('previous_received_message');
+// previousReceivedMessageButton.onclick = previousReceivedMessage;
+// var changeRepeatMessageStatusButton = document.getElementById("change_repeat_message_status");
+// changeRepeatMessageStatusButton.onclick = changeRepeatMessageStatus;
+// var changeRefreshMessageStatusButton = document.getElementById("change_refresh_message_status");
+// changeRefreshMessageStatusButton.onclick = changeRefreshMessageStatus;
+// var changeDenyReceivingStatusButton = document.getElementById("change_deny_receiving_status");
+// changeDenyReceivingStatusButton.onclick = changeDeniedReceivingStatus;
+// var refreshMainOutputProcessPropertiesFromMessagesButton = document.getElementById('refresh_main_output_process_properties_from_messages');
+// refreshMainOutputProcessPropertiesFromMessagesButton.onclick = refreshMainOutputProcessProperties;
+// var closeMessagesWindowButton = document.getElementById('close_messages_window');
+// closeMessagesWindowButton.onclick = closeMessagesWindow;
+//
+
+//WORK WITH PROCESSES WINDOW
+// var startWorkingProcessWithBeginingButton = document.getElementById("start_working_process_with_begining");
+// startWorkingProcessWithBeginingButton.onclick = startWorkingProcessWithBegining;
+// var setNextProcessButton = document.getElementById("set_next_process");
+// setNextProcessButton.onclick = setNextProcess;
+// var setPreviousProcessButton = document.getElementById("set_previous_process");
+// setPreviousProcessButton.onclick = setPreviousProcess;
+// var refreshMainOutputProcessPropertiesFromProcessButton = document.getElementById('refresh_main_output_process_properties_from_processes');
+// refreshMainOutputProcessPropertiesFromProcessButton.onclick = refreshMainOutputProcessProperties;
+// var closeProcessesWindowButton = document.getElementById('close_processes_window');
+// closeProcessesWindowButton.onclick = closeProcessesWindow;
+//
+
+// WORK WITH VOLUMES WINDOW
+// var volumesNamesSelect = document.getElementById("volumes_names");
+// volumesNamesSelect.onchange = changeVolumeName;
+// var volumeSourcesSelect = document.getElementById("volume_sources");
+// var volumeSourcesHeader = document.getElementById("volume_sources_header");
+// var saveVolumeButton = document.getElementById('save_volume');
+// saveVolumeButton.onclick = saveVolume;
+// var sendMessageToVolumeButton = document.getElementById("send_message_to_volumes");
+// sendMessageToVolumeButton.onclick = sendTextMessage;
+// var saveAllMessagesButton = document.getElementById("save_all_messages");
+// saveAllMessagesButton.onclick = saveAllMessages;
+// var refreshVolumeSourceButton = document.getElementById("refresh_volume_sources");
+// refreshVolumeSourceButton.onclick = refreshVolumeSourcesEvent;
+// var downloadMessageButton = document.getElementById("download_message");
+// downloadMessageButton.onclick = downloadMessage;
+// var showMessageFromVolumeButton = document.getElementById("show_message_from_volume")
+// showMessageFromVolumeButton.onclick = showMessageFromVolume;
+// var closeVolumesWindowButton = document.getElementById("close_volumes_window");
+// closeVolumesWindowButton.onclick = closeVolumesWindow;
+//
+
+var modeButton = document.getElementById("mode");
+modeButton.onclick = chageMode;
+var modes = [
+			{title: 'INPUT MODE',
+			inputAvailable: true,
+			colorObjectPanelAvailable: true,
+			palettePanelAvailable: true,
+			decorationPanelAvailable: false,
+			mouseFunctions:
+				{onclickFunction: mouseMoveCursor,
+				onmouseOverFunction: falseFunction,
+				onMouseDownFunction: falseFunction,
+				onMouseUpFunction: falseFunction,
+				onMouseOutFunction: falseFunction},
+			possibleColorTargetModes: [0]},
+			{title: 'SELECT MODE',
+			inputAvailable: false,
+			colorObjectPanelAvailable: true,
+			palettePanelAvailable: true,
+			decorationPanelAvailable: false,
+			mouseFunctions:
+				{onclickFunction: falseFunction,
+				onmouseOverFunction: onmouseOver,
+				onMouseDownFunction: onMouseDown,
+				onMouseUpFunction: onMouseUp,
+				onMouseOutFunction: falseFunction},
+			possibleColorTargetModes: [0, 1]},
+			{title: 'DECORATION',
+			inputAvailable: false,
+			colorObjectPanelAvailable: false,
+			palettePanelAvailable: false,
+			decorationPanelAvailable: true,
+			mouseFunctions:
+				{onclickFunction: insertDecorationElement,
+				onmouseOverFunction: falseFunction,
+				onMouseDownFunction: falseFunction,
+				onMouseUpFunction: falseFunction,
+				onMouseOutFunction: falseFunction},
+			possibleColorTargetModes: [0, 1]}
+			];
+var modeNumber = 0;
+setMode();
+
+var colorObject;
+var colorObjectButton = document.getElementById("color_object");
+colorObjectButton.onclick = changeSelectionObjectMode;
+var colorObjectModeNumber = 0;
+setColorObjectMode();
+
+var colors = {};
+var letters_colors = {};
+var colorTarget;
+var colorTargetButton = document.getElementById("color_target");
+colorTargetButton.onclick = setNextColorTargetMode;
+var colorTargetModes = [{title: 'Word',
+						target: 'word_colors'},
+						{title: 'Selection',
+						target: 'letters_colors'}];
+var colorTargetModeNumber = 0;
+setColorTargetMode();
+
+var redColorButton = document.getElementById("red");
+var orangeColorButton = document.getElementById("orange");
+var greenColorButton = document.getElementById("green");
+var blueColorButton = document.getElementById("blue");
+var yellowColorButton = document.getElementById("yellow");
+var purpleColorButton = document.getElementById("purple");
+var defaultColorButton = document.getElementById("default");
+
+redColorButton.onclick = function(event) {colorElementFunction("red", event.target)};
+orangeColorButton.onclick = function(event) {colorElementFunction("orange", event.target)};
+greenColorButton.onclick = function(event) {colorElementFunction("green", event.target)};
+blueColorButton.onclick = function(event) {colorElementFunction("blue", event.target)};
+yellowColorButton.onclick = function(event) {colorElementFunction("yellow", event.target)};
+purpleColorButton.onclick = function(event) {colorElementFunction("purple", event.target)};
+defaultColorButton.onclick = function(event) {colorElementFunction(false, event.target)};
+var currentColorElement = defaultColorButton;
+stressColorElement(currentColorElement);
+
+var selected = false;
+var selectionPanelElement = document.getElementById("selection_panel");
+var colorButton = document.getElementById("color");
+var cancelSelectionButton = document.getElementById("cancel_selection");
+colorButton.onclick = colorFunction;
+cancelSelectionButton.onclick = cancelSelection;
+
+var spaceDecorationButton = document.getElementById("decoration_space");
+var stressDecorationButton = document.getElementById("decoration_stress");
+stressDecorationButton.onclick = spaceDecorationButton.onclick = decorationElementFunction;
+var currentDecorationElement = spaceDecorationButton;
+var currentDecorationSymbol;
+decorationElementFunction(currentDecorationElement);
+var deleteDecorationButton = document.getElementById("delete_decoration");
+deleteDecorationButton.onclick = setDeleteDecorationMode;
+
+var controlMessageCommand = false;
+var sendMessageCallBackFunction = false;
+var controlMessageProperties = false;
+
+var hasBeenOpenedAlready = false;
+
+function definePartID() {
+	
+	window.part_id = document.getElementById("part_id").innerHTML;
+	console.log(window.part_id)
+	// var serverURLDict = location.pathname.split('/');
+	// window.part_id = (serverURLDict[serverURLDict.length-2]); //147	
+};
+
+function downloadPart(event) {
+	// var serverURL = location.origin;
+	downloadJson(`/api/part/?format=json&part_id=${window.part_id}`, handleDownloadedPart);
+};
+
+function handleDownloadedPart(partRawDict) {
+	// console.log(partRawDict);
+	var partDict = {};
+	if (Object.keys(partRawDict).indexOf('content') >= 0 && partRawDict.content != null) {
+		partDict.string = partRawDict.content;
+	} else {
+		partDict.string = '';
+	};	
+	
+	if (Object.keys(partRawDict).indexOf('style') >= 0 && partRawDict.style != null) {
+		var stylesDict = JSON.parse(partRawDict.style)
+		partDict = extend_dict(partDict, stylesDict)  
+	};
+	// console.log(partDict)
+	window.inputTextArea.value = JSON.stringify(partDict);
+	window.inputSavedCheckBox.checked = true;
+	handleInputedText();
+};
+
+// function getMainOutputWorkingProcessProperties(event) {
+// 	downloadJson('main_output_process_properties', createMainOutputWorkingProcessPropertiesDict);
+// };
+
+// function createMainOutputWorkingProcessPropertiesDict(mainOutputWorkingProcessPropertiesDict) {
+// 	// console.log(mainOutputWorkingProcessPropertiesDict)
+// 	window.mainOutputWorkingProcessPropertiesDict = mainOutputWorkingProcessPropertiesDict;
+// 	if (!hasBeenOpenedAlready) {
+// 		createMessageStatusesDict();
+// 		changeMessageStatusesButtons();
+// 		getAndFillWorkingProcessesNames();
+// 		getAndFillVolumesNames();
+// 		window.hasBeenOpenedAlready = true;
+// 	} else {
+// 		createMessageStatusesDict();
+// 		changeMessageStatusesButtons();
+// 		refreshWorkingProcess();
+// 	};
+// };
+
+// function createMessageStatusesDict() {
+// 	window.messageStatusesList = [
+// 								{buttonElement: window.changeRepeatMessageStatusButton,
+// 								status: window.mainOutputWorkingProcessPropertiesDict.repeat_message_status},
+// 								{buttonElement: window.changeRefreshMessageStatusButton,
+// 								status: window.mainOutputWorkingProcessPropertiesDict.refresh_message_status},
+// 								{buttonElement: window.changeDenyReceivingStatusButton,
+// 								status: window.mainOutputWorkingProcessPropertiesDict.deny_recieving_status}
+// 								];
+
+// 	window.messageStatusesList.forEach(function(eachButtonStatusMatchDict) {
+// 		window.messageStatusesDict[eachButtonStatusMatchDict.buttonElement.id] = eachButtonStatusMatchDict;
+// 	});
+// };
+
+// function getAndFillWorkingProcessesNames(event) {
+// 	downloadJson('working_processes_names', fillWorkingProcessesNames);
+// };
+
+// function fillWorkingProcessesNames(workingProcessesNames) {
+// 	window.workingProcessesNames = workingProcessesNames;
+// 	// console.log(window.workingProcessesNames)
+// 	workingProcessesNames.forEach(function(eachWorkingProcessName) {
+// 		var option = document.createElement('option');
+// 		option.value = eachWorkingProcessName.name;
+// 		option.innerHTML = eachWorkingProcessName.name.capitalize();
+// 		if (eachWorkingProcessName.name == window.mainOutputWorkingProcessPropertiesDict.standby_working_process_name) {
+// 			option.selected = true;
+// 			changeMovingMessagesButtonsAppearance(eachWorkingProcessName.queue);
+// 		};
+// 		window.wokingProcessesNamesSelect.appendChild(option);
+// 	});
+// };
+
+// function refreshWorkingProcess() {
+// 	for (var i=0;i<wokingProcessesNamesSelect.childNodes.length;i++) {
+// 		var option = wokingProcessesNamesSelect.childNodes[i];
+// 		if (option.value == window.mainOutputWorkingProcessPropertiesDict.standby_working_process_name) {
+// 			option.selected = true;
+// 			changeMovingMessagesButtonsAppearance(defineWorkingProcessProperties(option.value));
+// 			break;
+// 		};
+// 	};
+// };
+
+// function defineWorkingProcessProperties(workingProcessName) {	
+// 	for (var i=0;i<window.workingProcessesNames.length;i++) {
+// 		var eachWorkingProcessName = window.workingProcessesNames[i];
+// 		if (eachWorkingProcessName.name == workingProcessName) {
+// 			return eachWorkingProcessName.queue;
+// 		};
+// 	};
+// };
+
+// function chooseWorkingProcess(event) {
+// 	setWorkingProcess(event);
+// 	var workingProcessName = window.wokingProcessesNamesSelect.value;
+// 	changeMovingMessagesButtonsAppearance(defineWorkingProcessProperties(workingProcessName));
+// };
+
+// function changeMovingMessagesButtonsAppearance(isQueue) {
+// 	// console.log(isQueue);
+// 	if (isQueue) {
+// 		window.nextMessageButton.classList.remove('hidden');
+// 		window.previousMessageButton.classList.remove('hidden');
+// 	} else {
+// 		window.nextMessageButton.classList.add('hidden');
+// 		window.previousMessageButton.classList.add('hidden');
+// 	};
+// };
+
+// function changeMessageStatusesButtons() {
+// 	Object.keys(window.messageStatusesDict).forEach(function(eachMessageStatusName) {
+// 		changeMessageStatusButton(window.messageStatusesDict[eachMessageStatusName])
+// 	});
+// };
+
+// function changeMessageStatusButton(messageStatus) {
+// 	var buttonElement = messageStatus.buttonElement;
+// 	var buttonTextArray = buttonElement.innerHTML.split(' - ');
+// 	var newStatus = messageStatus.status;
+// 	if (newStatus) {
+// 		buttonTextArray[1] = 'On';
+// 	} else {
+// 		buttonTextArray[1] = 'Off';
+// 	};
+// 	buttonText = buttonTextArray.join(' - ');
+// 	buttonElement.innerHTML = buttonText;
+// };
+
+// function changeManuallyMessageStatusButton(buttonElement) {	
+// 	var buttonTextArray = buttonElement.innerHTML.split(' - ');
+// 	var currentStatus = buttonTextArray[1];
+// 	console.log(currentStatus)
+// 	if (currentStatus == 'On') {
+// 		var newStatus = false;
+// 	} else {
+// 		var newStatus = true;
+// 	};
+// 	window.messageStatusesDict[buttonElement.id].status = newStatus;
+// 	changeMessageStatusButton(window.messageStatusesDict[buttonElement.id]);
+// };
+
+// function getAndFillVolumesNames(event) {
+// 	downloadJson('volumes_names', fillVolumesNames);
+// };
+
+// function fillVolumesNames(volumeNames) {
+// 	window.volumeNames = volumeNames;
+// 	volumeNames.forEach(function(volume) {
+// 		var option = document.createElement('option');
+// 		option.value = volume.name;
+// 		option.innerHTML = volume.name.capitalize();
+// 		window.volumesNamesSelect.appendChild(option);
+// 	});
+// };
+
+// function changeVolumeName() {
+// 	window.volumeName = window.volumesNamesSelect.value;
+// 	if (volumeName == 'none') {
+// 		window.volumeSourcesSelect.classList.add('hidden');
+// 		window.volumeSourcesHeader.classList.add('hidden');
+// 		window.downloadMessageButton.classList.add('hidden');
+// 		window.showMessageFromVolumeButton.classList.add('hidden');
+// 		window.refreshVolumeSourceButton.classList.add('hidden');
+// 		window.saveVolumeButton.classList.add('hidden');
+// 		window.sendMessageToVolumeButton.classList.add('hidden');
+// 		window.sendMessageButton.innerHTML = window.sendMessageWithPropertiesButton.innerHTML = 'Send'
+// 	} else {
+// 		window.volumeSourcesSelect.classList.remove('hidden');
+// 		window.volumeSourcesHeader.classList.remove('hidden');
+// 		window.downloadMessageButton.classList.remove('hidden');
+// 		window.showMessageFromVolumeButton.classList.remove('hidden');
+// 		window.refreshVolumeSourceButton.classList.remove('hidden');
+// 		window.saveVolumeButton.classList.remove('hidden');
+// 		window.sendMessageToVolumeButton.classList.remove('hidden');
+// 		cleanNodeContent(volumeSourcesSelect);
+// 		getAndFillVolumeSources();
+// 		window.sendMessageButton.innerHTML = window.sendMessageWithPropertiesButton.innerHTML = 'Send to library volume source'
+// 	};
+// };
+
+// function getAndFillVolumeSources() {
+// 	downloadJson('volume_sources', fillVolumeSourcesDropList, 'POST', {'volume': window.volumeName})
+// };
+
+// function fillVolumeSourcesDropList(sources) {
+// 	window.volumeSources = sources;
+// 	window.volumeType = getVolumeType();
+// 	if (volumeType == 'dict') {
+// 		for (var i=0; i < window.volumeSources.length; i++) {
+// 		var option = createOptionElementForVolumeSourcesDropList(i, window.volumeSources[i].source, window.volumeSources[i].source + ' - ' + window.volumeSources[i].string);
+// 		window.volumeSourcesSelect.appendChild(option);
+// 		};
+// 	} else if (volumeType == 'list') {
+// 		for (var i=0; i < window.volumeSources.length; i++) {
+// 			var option = createOptionElementForVolumeSourcesDropList(i, window.volumeSources[i]);
+// 			window.volumeSourcesSelect.appendChild(option);
+// 		};
+// 		var option = createOptionElementForVolumeSourcesDropList('add', false, 'Add new message');
+// 		window.volumeSourcesSelect.appendChild(option);
+// 	};
+// };
+
+// function getVolumeType() {
+// 	for (var i=0;i<window.volumeNames.length;i++) {
+// 		var volume = window.volumeNames[i];
+// 		if (volume.name == window.volumesNamesSelect.value) {
+// 			return volume.type;
+// 		};
+// 	};
+// };
+
+// function createOptionElementForVolumeSourcesDropList(number, sourceName, innerHTMLText=false) {
+// 	var option = document.createElement('option');
+// 	if (window.volumeType == 'dict') {
+// 		option.value = sourceName;
+// 	} else if (window.volumeType == 'list') {
+// 		option.value = number;
+// 	};
+// 	option.dataset.number = number;
+// 	option.dataset.value = sourceName;
+// 	if (!innerHTMLText) {
+// 		option.innerHTML = getShortStringForVolumeSourcesDropList(number, sourceName);
+// 	} else {
+// 		option.innerHTML = innerHTMLText
+// 	};
+// 	return option;
+// };
+
+// function getShortStringForVolumeSourcesDropList(number, text=false) {
+// 	if (!text) {
+// 		text = joinSymbolsInString();
+// 	};	
+// 	var limitSimbols = 20;
+// 	if (text.length >= limitSimbols) {
+// 		text = text.slice(0, limitSimbols) + '...';
+// 	};
+// 	return (number + 1) + '. ' + text;
+// };
+
+// function refreshVolumeSourcesEvent(event) {
+// 	cleanNodeContent(window.volumeSourcesSelect);
+// 	getAndFillVolumeSources();
+// };
+
+// function refreshVolumeSources() {
+// 	var volumeSource = window.volumeSourcesSelect.value;
+// 	if (window.volumeType == 'dict') {
+// 		var sourceName = window.volumeSourcesSelect.value;
+// 		// console.log(sourceName);
+// 		var sourceNumber = volumeSourcesSelect.querySelector('[value="' + sourceName + '"]').dataset.number;
+// 		// console.log(sourceNumber);
+// 		window.volumeSources[sourceNumber].string = joinSymbolsInString();
+// 	} else if (window.volumeType == 'list') {
+// 		if (volumeSource == 'add') {
+// 			var sourceNumber = volumeSources.length;
+// 			var numberOfElementsToRemove = 0;
+// 			// console.log('add', sourceNumber)
+// 		} else {
+// 			var sourceNumber = Number(window.volumeSourcesSelect.value);
+// 			var numberOfElementsToRemove = 1;
+// 			// console.log('change', sourceNumber)
+// 		};
+// 		window.volumeSources.splice(sourceNumber, numberOfElementsToRemove, joinSymbolsInString());
+// 	};
+// 	cleanNodeContent(volumeSourcesSelect);
+// 	fillVolumeSourcesDropList(window.volumeSources);
+// };
+
+// function downloadMessage(event) {
+// 	downloadJson('download_message', pastMessage, 'POST', {'volume': window.volumeName,
+// 															'source': window.volumeSourcesSelect.value});
+// };
+
+// function pastMessage(downloaded_message_dict) {
+// 	// console.log(downloaded_message_dict);
+// 	window.inputTextArea.value = JSON.stringify(downloaded_message_dict);
+// 	window.inputSavedCheckBox.checked = true;
+// 	handleInputedText();
+// };
+
+function downloadJson(requestPath, callbackFunction, requestMethod='GET', data=false) {
+	var xhr = new XMLHttpRequest();
+	xhr.open(requestMethod, requestPath);
+	xhr.workWithLetters = this;
+	xhr.onload = function(evt) {
+		var rawData = evt.target.response;
+		var jsonData = JSON.parse(rawData);
+		callbackFunction(jsonData);
+	};
+	if (requestMethod == 'GET') {
+		xhr.send();
+	} else {
+		data = JSON.stringify(data);
+		xhr.send(data);
+	};
+};
+
+function setMainWindowAsOpened() {
+	window.currentWindow = 'main';
+	window.sendingAvailable = true;
+	if (mode) {
+		window.inputAvailable = mode.inputAvailable;
+	};
+};
+
+function decorationElementFunction(event) {
+	var element = event;
+	if (event.target) {
+		element = event.target;
+	};
+	currentDecorationSymbol = element.innerHTML;
+	currentDecorationElement.classList.remove('choosen_element');
+	element.classList.add('choosen_element');
+	currentDecorationElement = element;
+};
+
+function setDeleteDecorationMode(event) {
+	var deleteDecorationMouseFunction = {onclickFunction: eraseDecorationElement,
+										onmouseOverFunction: onmouseOverDecoration,
+										onMouseDownFunction: falseFunction,
+										onMouseUpFunction: falseFunction,
+										onMouseOutFunction: onMouseOutDecoration}
+	prepareAndSetFunction(deleteDecorationMouseFunction, true);
+	deleteDecorationButton.innerHTML = 'Cancel';
+	deleteDecorationButton.onclick = cancelDeleteDecorationMode;
+};
+
+function cancelDeleteDecorationMode(event) {
+	deleteDecorationButton.innerHTML = 'Delete';
+	prepareAndSetFunction(mode.mouseFunctions, true);
+	deleteDecorationButton.onclick = setDeleteDecorationMode;
+};
+
+function eraseDecorationElement(event) {
+	var element = event;
+	if (event.target) {
+		element = event.target;		
+	};
+	if (isDecorationElement(element)) {
+		var symbolNumber = getSymbolPositionNumber(element);
+		var thisDecoration = element.innerHTML;
+		if (thisDecoration.charCodeAt() == 8194) {
+			thisDecoration = " ";
+		};
+		decorations[thisDecoration].splice(decorations[thisDecoration].indexOf(symbolNumber), 1);
+		element.remove();
+	};
+	if (event.target) {
+		cancelDeleteDecorationMode();
+	};
+};
+
+function getSymbolPositionNumber(element) {
+	element = element.nextSibling;
+	if (isLetterElement(element)) {
+		return element.dataset.position;
+	} else {
+		return getSymbolPositionNumber(element);
+	};
+};
+
+function onmouseOverDecoration(event) {
+	var element = event.target;
+	if (isDecorationElement(element)) {
+		element.classList.add('stressed');
+	};
+};
+
+function onMouseOutDecoration(event) {
+	var element = event.target;
+	if (isDecorationElement(element)) {
+		element.classList.remove('stressed');
+	};
+};
+
+function isDecorationElement(element) {
+	var result = false;
+	if (element.classList && element.classList.contains("decoration")) {
+		result = true;
+	};
+	return result;
+};
+
+function isLetterElement(element) {
+	var result = false;
+	if (element.dataset && element.dataset.position) {
+		result = true;
+	};
+	return result;
+};
+
+function setDefaultValues() {
+	symbols = [];
+	mainColor = false;
+	backgroundColor = false;
+	lettersColors = {"main_color": {}, "background_color": {}};
+	cursorPosition = 0;
+	currentColor = false;
+	colorClass = false;
+	decorations = {' ': [], "'": []};
+};
+
+function falseFunction() {
+	return false;
+};
+
+function changeTextDirectionMode(event) {
+	document.body.classList.remove(textDirectionMode.className);
+	if (textDirectionModeNumber + 1 < textDirectionModes.length) {
+		textDirectionModeNumber++;
+	} else {
+		textDirectionModeNumber = 0;
+	};
+	setTextDirectionMode();
+};
+
+function setTextDirectionMode() {
+	window.textDirectionMode = textDirectionModes[textDirectionModeNumber];
+	window.startString.innerHTML = ">";
+	document.body.classList.add(textDirectionMode.className);
+	textDirectionButton.innerHTML = textDirectionMode.title.toUpperCase();
+};
+
+function chageMode(event) {
+	if (window.modeNumber + 1 < window.modes.length) {
+		window.modeNumber++;
+	} else {
+		window.modeNumber = 0;
+	};
+	setMode();
+	setNextColorTargetMode();
+};
+
+function prepareAndSetFunction(mouseFunctions, decorationsIncluded = false) {
+	var functionsNames = ['onclickFunction',
+						'onmouseOverFunction',
+						'onMouseDownFunction',
+						'onMouseUpFunction',
+						'onMouseOutFunction'
+						];
+	functionsNames.forEach(function(eachFunctionName){
+		window[eachFunctionName] = mouseFunctions[eachFunctionName];
+	});
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) || (decorationsIncluded && isDecorationElement(eachElement))) {
+			setMouseFunctions(eachElement);
+		};
+	});
+};
+
+function setMode() {
+	window.mode = modes[window.modeNumber];
+	modeButton.innerHTML = mode.title;
+	prepareAndSetFunction(mode.mouseFunctions);
+	window.inputAvailable = mode.inputAvailable;
+	window.cursorElement.style.display = window.inputButton.style.display = elementAppearance(mode.inputAvailable);
+	window.possibleColorTargetModes = mode.possibleColorTargetModes;
+	window.colorObjectPanel.style.display = elementAppearance(mode.colorObjectPanelAvailable);
+	window.paletteObjectPanel.style.display = elementAppearance(mode.palettePanelAvailable);
+	window.decorationObjectPanel.style.display = elementAppearance(mode.decorationPanelAvailable);
+};
+
+function elementAppearance(value) {
+	var appearance = 'none';
+	if (value) {appearance = ''};
+	return appearance;
+};
+
+function openInputWindow(event) {
+	window.inputWindow.style.display = 'block';
+	window.inputAvailable = false;
+	window.sendingAvailable = false;
+	inputTextArea.focus();
+	window.currentWindow = 'inputWindow';
+};
+
+function eraseInputTextEvent(event) {
+	var text = inputTextArea.value;
+	var eraseConfirmation = false;
+	if (text) {
+		eraseConfirmation = confirm(`Do you want to erase \"${text}\" from the Input window?`);
+	};
+	if (eraseConfirmation) {
+		inputTextArea.value = '';
+	};
+	return eraseConfirmation;
+};
+
+function closeInputWindowEvent(event) {
+	var eraseConfirmation = eraseInputTextEvent();
+	closeInputWindow(eraseConfirmation);
+};
+
+function closeInputWindow(eraseConfirmation=true) {
+	window.inputWindow.style.display = '';
+	setMainWindowAsOpened();
+	if (eraseConfirmation) {
+		inputTextArea.value = '';
+		inputSavedCheckBox.checked = false;
+	};
+};
+
+// function closeControlWindow() {
+// 	window.controlWindow.style.display = '';
+// 	setMainWindowAsOpened();
+// };
+
+// function closeMessagePropertiesWindow() {
+// 	window.messagePropertiesWindow.style.display = '';
+// 	setMainWindowAsOpened();
+// };
+
+// function closeMessagesWindow() {
+// 	window.messagesWindow.style.display = '';
+// 	setMainWindowAsOpened();
+// };
+
+// function closeProcessesWindow() {
+// 	window.processesWindow.style.display = '';
+// 	setMainWindowAsOpened();
+// };
+
+// function closeVolumesWindow() {
+// 	window.volumesWindow.style.display = '';
+// 	setMainWindowAsOpened();
+// };
+
+function handleInputedText(event) {
+	var text = inputTextArea.value;
+	if (inputSavedCheckBox.checked) {
+		try {
+			var inputedDict = JSON.parse(text);
+			var string = inputedDict.string;
+			if (string == undefined) {
+				throw 'NO STRING'
+			};
+
+			inputTextFromForm(string, true);
+			if (inputedDict.direction) {
+				switch (inputedDict.direction) {
+					case "l":
+					case "True":
+						window.textDirectionModeNumber = 0;
+						break;
+					case "r":
+					case "False":
+						window.textDirectionModeNumber = 1;
+						break;
+				};
+				// if (inputedDict.direction == 'l') {
+				// 	window.textDirectionModeNumber = 0;
+				// } else {
+				// 	window.textDirectionModeNumber = 1;
+				// }
+				document.body.classList.remove(textDirectionMode.className);
+				setTextDirectionMode();
+			};
+
+			if (inputedDict.main_color) {
+				window.mainColor = inputedDict.main_color;
+			};
+			if (inputedDict.background_color) {
+				window.backgroundColor = inputedDict.background_color;
+			};
+			if (inputedDict.letters_colors) {
+				window.lettersColors = transformSavedLetterColors(inputedDict.letters_colors);
+			};
+			renderColors();
+
+			window.modeNumber = 0;
+			setMode();
+			setNextColorTargetMode();
+			window.colorObjectModeNumber = 0;
+			setColorObjectMode();
+
+			if (inputedDict.decorations) {
+				transformSavedDecorations(inputedDict.decorations);
+			};
+		} catch (error) {
+			alert("This is not a saved text! " + error);
+			inputTextFromForm(text);
+		};
+	} else {
+		inputTextFromForm(text);
+	};
+	inputTextArea.value = '';
+	inputSavedCheckBox.checked = false;
+	closeInputWindow();
+};
+
+function transformSavedLetterColors(savedLettersColors) {
+	var transformedLettersColors = {};
+	colorObjectModes.forEach(function(eachColorObjectElement) {
+		var eachObject = eachColorObjectElement.object;
+		transformedLettersColors[eachObject] = {};
+		if (Object.keys(savedLettersColors).indexOf(eachObject) >= 0) {
+			Object.keys(savedLettersColors[eachObject]).forEach(function(eachColor) {
+				var numbers = savedLettersColors[eachObject][eachColor];
+				numbers.forEach(function(eachNumberElement) {
+					if (eachNumberElement.indexOf('-') >= 0) {
+						var rangeNumbers = eachNumberElement.split('-');
+						for (var i=Number(rangeNumbers[0]); i <= Number(rangeNumbers[1]); i++) {
+							transformedLettersColors[eachObject][i+1] = eachColor;
+						};
+					} else {
+						transformedLettersColors[eachObject][Number(eachNumberElement)+1] = eachColor;
+					};
+				});
+			});
+		};
+	});
+	return transformedLettersColors;
+};
+
+function replaceSavedDecorations(inputDecoration) {
+	if (inputDecoration == ' ') {
+		var replacedDecoration = String.fromCharCode(8194);
+	} else {
+		var replacedDecoration = inputDecoration;
+	};
+	return replacedDecoration;
+};
+
+function insertSavedDecorationElement(position) {
+	var symbolElement = findSimbolElement(position);
+	insertDecorationElement(symbolElement);
+};
+
+function transformSavedDecorations(savedDecorations) {
+	Object.keys(savedDecorations).forEach(function(eachDecoration) {
+		window.currentDecorationSymbol = replaceSavedDecorations(eachDecoration);
+		savedDecorations[eachDecoration].forEach(function(eachNumberElement) {
+			if (eachNumberElement.indexOf('-') >= 0) {
+				var rangeNumbers = eachNumberElement.split('-');
+				for (var i=Number(rangeNumbers[0]); i <= Number(rangeNumbers[1]); i++) {
+					insertSavedDecorationElement(i+1);
+				};
+			} else {
+				insertSavedDecorationElement(Number(eachNumberElement)+1);
+			};
+		});
+	});
+};
+
+function renderColors() {
+	Object.keys(window.lettersColors).forEach(function(eachObject) {
+		window.colorObject = eachObject;
+		var numbers = window.lettersColors[eachObject];
+		for (var i=0;i<window.symbols.length;i++) {
+			var positionNumber = i + 1;
+			if (Object.keys(numbers).indexOf(String(positionNumber)) >= 0) {
+				window.currentColor = numbers[positionNumber];
+			} else {
+				window.currentColor = window[transformPStyleToJSStyle(eachObject)];
+			};
+			defineColorClass();
+			var symbolElement = findSimbolElement(positionNumber);
+			addColorClassInElementClassList(symbolElement, window.colorClass)
+ 		};
+	});
+};
+
+function addColorClassInElementClassList(element, colorClass) {
+	if (colorClass) {
+		element.classList.add(colorClass);
+	};
+};
+
+function inputTextFromForm(text, fromSavedText=false) {
+	var eraseConfirmation = true;
+	if (symbols.length > 0) {
+		eraseConfirmation = eraseAll(false, `Do you want to erase the main text \"${joinSymbolsInString()}\" with all styles and replace to \"${text}\"?`);
+	};
+	if (eraseConfirmation && fromSavedText || !fromSavedText) {
+		for (var i=0;i<text.length;i++) {
+			insertSimbol(text[i]);			
+		};
+	};
+};
+
+document.addEventListener('keydown', function(event) {
+	if (window.inputAvailable) {
+		if (event.keyCode >= 48 && event.keyCode <= 90 || event.keyCode >= 96 && event.keyCode <= 111 || event.keyCode >= 186 && event.keyCode <= 222) {
+			insertSimbol(event.key)
+		} else if (event.code == "Space") {
+			insertSimbol("&ensp;", event.key); //&#32; &emsp; &ensp;
+		} else if (event.code == "Backspace") {
+			backSpace();
+		} else if (event.code == "Delete") {
+			deleteSimbol();
+		} else if (event.code == "ArrowLeft" || event.code == "ArrowRight") {
+			moveArrowCursor(event.code);
+		} else if (event.code == "Home" || event.code == "End") {
+			moveEndCursor(event.code);
+		};
+	};
+	if (window.sendingAvailable) {
+		switch (event.code) {
+			case "Enter":
+			case "NumpadEnter":
+				sendTextMessage();
+		};
+	} else {
+		switch (event.code) {
+			case "Enter":
+			case "NumpadEnter":
+				window.popUpWindowsKeyEventFunction[currentWindow].enterFunction();
+			break;
+			case "Escape":
+				window.popUpWindowsKeyEventFunction[currentWindow].closeWindowFunction();
+			break;
+		};
+	};
+});
+
+function moveArrowCursor(code) {
+	if (code == "ArrowLeft" && window.cursorPosition > 0) {
+		window.cursorPosition--;
+		textContainer.insertBefore(cursorElement, cursorElement.previousSibling);
+	} else if (code == "ArrowRight" && window.cursorPosition < window.symbols.length) {
+		window.cursorPosition++;
+		setCursor(window.cursorPosition, cursorElement.nextSibling);
+	};
+};
+
+function moveEndCursor(code) {
+	if (code == "Home") {
+		textContainer.insertBefore(cursorElement, textContainer.firstChild.nextSibling.nextSibling.nextSibling.nextSibling);
+	} else if (code == "End") {
+		setCursor(window.symbols.length, textContainer.lastChild);
+	};
+};
+
+function setCursor(position, symbolElement) {
+	if (position < window.symbols.length) {
+		textContainer.insertBefore(cursorElement, symbolElement.nextSibling);
+	} else {
+		textContainer.appendChild(cursorElement);
+	};
+};
+
+function insertStartSimbol() {
+	window.startString = createSimbolElement(">");
+	textContainer.appendChild(window.startString);
+};
+
+function createEmptySimbolElement() {
+	var cursorElement = document.createElement('div');
+	cursorElement.classList.add("symbol");
+	return cursorElement;
+};
+
+function insertCursor() {
+	var cursorElement = createEmptySimbolElement();
+	cursorElement.innerHTML = '|';
+	cursorElement.id = 'cursor';
+	textContainer.appendChild(cursorElement);
+	return cursorElement;
+};
+
+function createSimbolElement(symbol) {	
+	var symbolElement = createEmptySimbolElement();
+
+	colorObjectModes.forEach(function(eachColorObjectElement) {
+		var colorObject = eachColorObjectElement.object;
+		var windowColorObject = transformPStyleToJSStyle(colorObject);
+		if (window[windowColorObject]) {
+			var colorClass = colorClasses[colorObject][window[windowColorObject]];
+			addColorClassInElementClassList(symbolElement, colorClass);
+		};
+	});
+	symbolElement.dataset.position = window.cursorPosition;
+	symbolElement.innerHTML = symbol;
+	setMouseFunctions(symbolElement);
+	return symbolElement;
+};
+
+function setMouseFunctions(symbolElement) {
+	symbolElement.onclick = window.onclickFunction;
+	symbolElement.onmouseover = window.onmouseOverFunction;
+	symbolElement.onmousedown = window.onMouseDownFunction;
+	symbolElement.onmouseup = window.onMouseUpFunction;
+	symbolElement.onmouseout = window.onMouseOutFunction;
+};
+
+function insertSimbol(symbol, realSymbol) {
+	if (!realSymbol) {
+		realSymbol = symbol;
+	};
+	window.cursorPosition++;
+	var symbolElement = createSimbolElement(symbol);
+	findAndChangeNextSimbolsElements();
+	textContainer.insertBefore(symbolElement, cursorElement);	
+	var insertPosition = cursorPosition;
+	if (insertPosition < window.symbols.length+2) {
+		insertPosition--;
+	};
+	window.symbols.splice(insertPosition, 0, realSymbol);
+};
+
+function mouseMoveCursor(event) {
+	window.cursorPosition = event.target.dataset.position;
+	var symbolElement = findSimbolElement(window.cursorPosition);
+	setCursor(window.cursorPosition, symbolElement);
+};
+
+function checkIfZero(number) {
+	if (!number) {
+		number = 1;
+	};
+	return number;
+}
+
+function onMouseDown(event) {
+	unstressAll();
+	window.selectionMode = true;
+	window.firstCursorPosition = checkIfZero(Number(event.target.dataset.position));
+	window.previousCursorPosition = window.firstCursorPosition;
+	stressSimbolElement(window.previousCursorPosition);
+};
+
+function onmouseOver(event) {
+	window.currentCursorPosition = checkIfZero(Number(event.target.dataset.position));
+	if (window.selectionMode) {
+		if (window.previousCursorPosition < window.currentCursorPosition) {
+			if (window.firstCursorPosition <= window.previousCursorPosition) {
+				for (var i=window.previousCursorPosition+1;i<=window.currentCursorPosition;i++) {
+					stressSimbolElement(i);
+				};
+			} else {
+				for (var i=window.previousCursorPosition;i<window.currentCursorPosition;i++) {					
+					stressSimbolElement(i);
+				};
+			};
+		} else {
+			if (window.firstCursorPosition <= window.currentCursorPosition) {
+				for (var i=window.currentCursorPosition+1;i<=window.previousCursorPosition;i++) {
+					stressSimbolElement(i);
+				};
+			} else {
+				for (var i=window.currentCursorPosition;i<window.previousCursorPosition;i++) {
+					stressSimbolElement(i);
+				};
+			};
+		};
+		window.previousCursorPosition = window.currentCursorPosition;
+	};
+};
+
+function stressSimbolElement(position) {
+	var symbolElement = findSimbolElement(position);
+	symbolElement.classList.toggle('stressed');
+};
+
+function onMouseUp() {
+	window.selectionMode = false;
+	window.selected = true;
+	selectionPanelElement.style.display = 'block';
+};
+
+function backSpace() {
+	if (window.cursorPosition > 0) {
+		var symbolElement = findSimbolElement(window.cursorPosition);
+		erasePreviousDecorationElement(symbolElement);
+		symbolElement.remove();
+		window.cursorPosition--;
+		window.symbols.splice(window.cursorPosition, 1);
+		findAndChangePreviousSimbolElements(window.cursorPosition);
+		removeLetterInLettersColors(window.cursorPosition);
+	};
+};
+
+function deleteSimbol() {
+	if (window.cursorPosition < window.symbols.length) {		
+		var symbolElement = findSimbolElement(Number(window.cursorPosition) + 1);
+		erasePreviousDecorationElement(symbolElement);
+		symbolElement.remove();
+		window.symbols.splice(window.cursorPosition, 1);
+		findAndChangeNextSimbolElements();
+		removeLetterInLettersColors(window.cursorPosition);	
+	};
+};
+
+function erasePreviousDecorationElement(element) {
+	element = element.previousSibling;
+	if (element.classList && element.classList.contains('decoration')) {
+		erasePreviousDecorationElement(element);
+		eraseDecorationElement(element);
+		element.remove();
+	};
+};
+
+function removeLetterInLettersColors(number) {
+	number++;
+	deleteLetterInDict(number, 'main_color');
+	deleteLetterInDict(number, 'background_color');	
+};
+
+function deleteLetterInDict(number, dictName) {
+	if (lettersColors[dictName] && lettersColors[dictName][number]) {
+		delete lettersColors[dictName][number];
+	};	
+};
+
+function findSimbolElement(cursorPosition) {
+	return textContainer.querySelector('[data-position="' + cursorPosition + '"]');
+};
+
+function findAndChangeNextSimbolsElements() {
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position >= window.cursorPosition) {
+			eachElement.dataset.position = Number(eachElement.dataset.position) + 1;
+		};
+	});
+};
+
+function findAndChangePreviousSimbolElements() {
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position > window.cursorPosition + 1) {
+			eachElement.dataset.position = eachElement.dataset.position - 1;
+		};
+	});
+};
+
+function findAndChangeNextSimbolElements() {
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position > window.cursorPosition) {
+			eachElement.dataset.position = eachElement.dataset.position - 1;			
+		};
+	});
+};
+
+function unstressAll() {
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement)) {
+			eachElement.classList.remove('stressed');
+		};
+	});
+};
+
+function changeSelectionObjectMode() {
+	if (colorObjectModeNumber + 1 < colorObjectModes.length) {
+		colorObjectModeNumber++;
+	} else {
+		colorObjectModeNumber = 0;
+	};
+	setColorObjectMode();
+};
+
+function setColorObjectMode() {
+	var colorObjectMode = colorObjectModes[colorObjectModeNumber];
+	colorObjectButton.innerHTML = colorObjectMode.title;
+	colorObject = colorObjectMode.object;
+};
+
+function setNextColorTargetMode() {
+	if (colorTargetModeNumber + 1 < possibleColorTargetModes.length) {
+		colorTargetModeNumber++;
+	} else {
+		colorTargetModeNumber = possibleColorTargetModes[0];
+	};
+	setColorTargetMode();
+};
+
+function setColorTargetMode() {
+	var colorTargetMode = colorTargetModes[colorTargetModeNumber];	
+	colorTargetButton.innerHTML = colorTargetMode.title;
+	colorTarget = colorTargetMode.target;
+	changeColorInColorTargetButton();
+};
+
+function changeColorInColorTargetButton(onlyCurrentColorObject=false) {
+	var colorTargetMode = colorTargetModes[colorTargetModeNumber];
+	if (colorTargetMode.title == "Word") {
+		Object.keys(colorClasses[colorObject]).forEach(function(eachColor) {
+			var eachClass = colorClasses[colorObject][eachColor];			
+			if (colorTargetButton.classList.contains(eachClass)) {
+				colorTargetButton.classList.remove(eachClass);
+			};
+		});
+		Object.keys(window.lettersColors).forEach(function(eachObject) {
+			if ((onlyCurrentColorObject && eachObject == colorObject) || !onlyCurrentColorObject) {
+				var currentColor = window[transformPStyleToJSStyle(eachObject)];
+				// console.log(transformPStyleToJSStyle(eachObject))
+				if (currentColor) {
+					if (currentColor) {
+						var colorClass = colorClasses[eachObject][currentColor];
+					} else {
+						var colorClass = false;
+					};
+					addColorClassInElementClassList(colorTargetButton, colorClass);
+				};
+			};
+		});
+	} else {		
+		Object.keys(window.lettersColors).forEach(function(eachObject) {
+			Object.keys(colorClasses[colorObject]).forEach(function(eachColor) {
+				var eachClass = colorClasses[eachObject][eachColor];			
+				if (colorTargetButton.classList.contains(eachClass)) {
+					colorTargetButton.classList.remove(eachClass);
+				};
+			});
+		});
+	};
+};
+
+function defineStartPositions(startPosition) {
+	if (startPosition != 0) {
+		startPosition--;
+	};
+	return startPosition;
+};
+
+function defineFinishPosition(finishPosition) {
+	if (!finishPosition) {
+		finishPosition = window.symbols.length;
+	};
+	return finishPosition;
+};
+
+function removeColorClasses(startPosition=0, finishPosition=false) {
+	startPosition = defineStartPositions(startPosition);
+	finishPosition = defineFinishPosition(finishPosition);	
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position > startPosition && eachElement.dataset.position <= finishPosition) {
+			Object.keys(colorClasses[colorObject]).forEach(function(eachColor) {
+				var eachClass = colorClasses[colorObject][eachColor];
+				if (eachElement.classList.contains(eachClass)) {
+					eachElement.classList.remove(eachClass);
+				};
+			});
+		};
+	});
+};
+
+function replaceColorClassesForLettersWithoutColors(colorObject, startPosition=0, finishPosition=false) {
+	var colorForColorObject = window[transformPStyleToJSStyle(colorObject)];
+	var oldColorClass = colorClasses[colorObject][colorForColorObject];
+	defineColorClass();
+	startPosition = defineStartPositions(startPosition);
+	finishPosition = defineFinishPosition(finishPosition);
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position > startPosition && eachElement.dataset.position <= finishPosition && Object.keys(window.lettersColors[colorObject]).indexOf(eachElement.dataset.position) < 0) {
+			eachElement.classList.remove(oldColorClass);
+			eachElement.classList.add(colorClass);
+		};
+	});
+};
+
+function addColorClasses(startPosition=0, finishPosition=false) {
+	startPosition = defineStartPositions(startPosition);
+	finishPosition = defineFinishPosition(finishPosition);
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position > startPosition && eachElement.dataset.position <= finishPosition) {
+			eachElement.classList.add(colorClass);
+		};
+	});
+};
+
+function defineColorClass() {
+	if (currentColor) {
+		colorClass = colorClasses[colorObject][currentColor];
+	} else {
+		colorClass = false;
+	};
+};
+
+function stressColorElement(colorElement) {
+	currentColorElement.classList.remove('choosen_element');
+	currentColorElement = colorElement;
+	currentColorElement.classList.add('choosen_element');
+};
+
+function colorElementFunction(color, colorElement) {
+	stressColorElement(colorElement);
+	currentColor = color;
+	colorFunction();	
+	changeColorInColorTargetButton(true);
+};
+
+function colorFunction() {
+	switch (colorTarget) {
+		case 'word_colors':
+			var eraseColorsConfirmation = true;
+			if (isLettersColors(colorObject)) {
+				eraseColorsConfirmation = confirm("Erase colors for singular symbols?");
+				if (eraseColorsConfirmation) {eraseLettersColors(colorObject)};
+			};
+			if (eraseColorsConfirmation) {
+				removeColorClasses();
+				defineColorClass();
+				addColorClasses();
+			} else if (isLettersColors(colorObject)) {
+				replaceColorClassesForLettersWithoutColors(colorObject);
+			};
+			switch (colorObject) {
+				case 'main_color':
+					mainColor = currentColor;
+				break;
+				case 'background_color':
+					backgroundColor = currentColor;
+				break;
+			};
+		break;
+		case 'letters_colors':
+			if (window.selected) {
+				cancelSelection();
+				var positions = [window.firstCursorPosition, window.previousCursorPosition].sort(compareNumeric);
+				removeColorClasses(positions[0], positions[1]);
+				if (currentColor) {
+					defineColorClass();
+				} else {
+					window.currentColor = mainColor;
+					window.colorClass = colorClasses[colorObject][mainColor];
+				};
+				addColorClasses(positions[0], positions[1]);
+				for (var i=positions[0];i<=positions[1]; i++) {
+					if (currentColor) {
+						lettersColors[colorObject][i] = currentColor;
+					} else {
+						delete lettersColors[colorObject][i];
+					};
+				};
+			};
+		break;
+	};
+};
+
+function fillLettersCodesDict(dictName) {
+	for (var i=positions[0];i<=positions[1]; i++) {
+		if (currentColor) {
+			lettersColors[dictName][i] = currentColor;
+		} else {
+			delete lettersColors[dictName][i];
+		};
+	};
+};
+
+function cancelSelection() {
+	unstressAll();
+	selectionPanelElement.style.display = '';
+	window.selected = false;
+};
+
+function compareNumeric(a, b) {
+	a = Number(a);
+	b = Number(b);
+	if (a > b) return 1;
+	if (a < b) return -1;
+};
+
+function cleanTextContainer() {
+	var elementsForDelete = [];
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position > 0 || eachElement.classList && eachElement.classList.contains('decoration')) {
+			elementsForDelete.push(eachElement);
+		};
+	});
+	elementsForDelete.forEach(function(eachElement) {
+		textContainer.removeChild(eachElement);
+	});
+};
+
+function eraseAll(event, confiramtionText='Erase All?') {
+	var eraseConfirmation = confirm(confiramtionText);
+	if (eraseConfirmation) {
+		setDefaultValues();
+		colorElementFunction(false, defaultColorButton)
+		cleanTextContainer(textContainer);
+	};
+	return eraseConfirmation;
+};
+
+function joinSymbolsInString() {
+	var string;
+	if (textDirectionModeNumber == 0) {
+		string = window.symbols.join('');
+	} else {
+		var reversedSymbols = window.symbols.slice(0, window.symbols.length).reverse();
+		string = reversedSymbols.join('');
+	};
+	// if (window.upperCaseCheckBox.checked) {
+	// 	string = string.toUpperCase();
+	// };
+	return string;
+};
+
+function isLettersColors(dictName) {
+	return Object.keys(window.lettersColors[dictName]).length > 0;
+};
+
+function eraseLettersColors(dictName) {
+	window.lettersColors[dictName] = {};
+};
+
+function createDecorationElement() {
+	var decorationElement = createEmptySimbolElement();
+	decorationElement.classList.add('decoration');
+	return decorationElement;
+};
+
+function insertDecorationElement(event) {
+	var element = event;
+	if (event.target) {
+		element = event.target;
+	};
+	var positionNumber = Number(element.dataset.position);
+	if (positionNumber > 0) {
+		var decorationElement = createDecorationElement();
+		decorationElement.innerHTML = currentDecorationSymbol;
+		if (currentDecorationSymbol.charCodeAt() == 8194) {
+			currentDecorationSymbolForDict = " ";
+		} else {
+			currentDecorationSymbolForDict = currentDecorationSymbol;
+		};
+		var currentElement = findSimbolElement(element.dataset.position);
+		var previousSiblingElement = currentElement.previousSibling
+		var previousSiblingContent = previousSiblingElement.innerHTML;
+		if (previousSiblingElement.classList.contains('decoration')) {
+			if (previousSiblingContent.charCodeAt() == 8194) {
+				textContainer.insertBefore(decorationElement, currentElement);
+			} else {
+				textContainer.insertBefore(decorationElement, previousSiblingElement);
+			};
+			decorations[currentDecorationSymbolForDict].push(positionNumber);
+		} else if (previousSiblingContent != currentDecorationSymbol) {
+			textContainer.insertBefore(decorationElement, currentElement);
+			decorations[currentDecorationSymbolForDict].push(positionNumber);
+		};
+	};
+};
+
+function insertIntoString(originalString, insertedString, position) {	
+	return originalString.slice(0,position)+insertedString+originalString.slice(position);;
+};
+
+function insertDecorationInString(string) {
+	var symbolsForInsert = {};
+	Object.keys(decorations).forEach(function(eachDecorationSymbol) {
+		if (decorations[eachDecorationSymbol].length > 0) {
+			var thisSymbolList = decorations[eachDecorationSymbol].sort(compareNumeric);
+			thisSymbolList.forEach(function(eachPosition) {
+				if (symbolsForInsert[eachPosition]) {
+					symbolsForInsert[eachPosition] = symbolsForInsert[eachPosition] + eachDecorationSymbol;
+				} else {
+					symbolsForInsert[eachPosition] = eachDecorationSymbol;
+				};
+			});
+		};
+	});
+
+	if (Object.keys(symbolsForInsert).length > 0) {
+		var shift = 1;
+		positionsForInsert = Object.keys(symbolsForInsert).sort(compareNumeric);
+		positionsForInsert.forEach(function(eachPosition) {			
+			string = insertIntoString(string, symbolsForInsert[eachPosition], eachPosition-shift);
+			var increment = 1;
+			if (symbolsForInsert[eachPosition].length > 1) {
+				increment = 2;
+			};
+			shift-=increment;
+		});
+	};
+	return string;
+};
+
+function transformPStyleToJSStyle(colorObject) {
+	var colorObject = colorObject.split('_');
+	colorObject[1] = colorObject[1].capitalize();
+	colorObject = colorObject.join('');
+	return colorObject;
+};
+
+function createLettersColors(useDecoration) {
+	var lettersColors = {"main_color": {}, "background_color": {}};
+	var position = 0;
+	textContainer.childNodes.forEach(function(eachElement) {
+		if (isLetterElement(eachElement) && eachElement.dataset.position > 0 || (useDecoration && eachElement.classList && eachElement.classList.contains('decoration'))) {
+			position++;
+			Object.keys(colorClasses).forEach(function(eachColorObject) {
+				Object.keys(colorClasses[eachColorObject]).forEach(function(eachColor) {
+					var eachClass = colorClasses[eachColorObject][eachColor];
+					var colorObject = transformPStyleToJSStyle(eachColorObject);
+					if (eachElement.classList.contains(eachClass) && eachColor != window[colorObject]) {
+						lettersColors[eachColorObject][position] = eachColor;
+					};
+				});
+			});
+		};
+	});
+	return lettersColors;
+};
+
+function getLettersColorsForSending(lettersColors) {
+	var lettersColorsForSending = {};
+	Object.keys(lettersColors).forEach(function(eachDictName) {
+		if (Object.keys(lettersColors[eachDictName]).length > 0) {
+			var packedColors = {};
+			Object.keys(lettersColors[eachDictName]).forEach(function(eachLetterNumber) {
+				var currentColor = lettersColors[eachDictName][eachLetterNumber];
+				if (packedColors[currentColor]) {
+					packedColors[currentColor].push(eachLetterNumber);
+				} else {
+					packedColors[currentColor] = [eachLetterNumber];
+				};
+			});
+
+			Object.keys(packedColors).forEach(function(eachColor) {				
+				packedColors[eachColor] = getHandledNumbersList(packedColors[eachColor]);
+			});
+			lettersColorsForSending[eachDictName] = packedColors;
+		};
+	});
+	return lettersColorsForSending;
+};
+
+function getDecorationsForSaving() {
+	var decorationsForSaving = {};
+	Object.keys(window.decorations).forEach(function (eachDecoration) {
+		if (Object.keys(window.decorations[eachDecoration]).length > 0) {			
+			decorationsForSaving[eachDecoration] = getHandledNumbersList(decorations[eachDecoration]);
+		};
+	});
+	return decorationsForSaving;
+};
+
+function getHandledNumbersList(inputList) {
+	var currentNumbers = inputList.sort(compareNumeric);
+	var handledCurrentNumbers = [];
+	var firstNumber = false;
+	var nextNumber = false;
+	var numbersForPushing;
+	for (var i=0;i<currentNumbers.length;i++) {
+		var currentNumber = Number(currentNumbers[i]);
+		if (!firstNumber) {
+			firstNumber = currentNumber; 
+		};
+		if (currentNumber + 1 == currentNumbers[i+1]) {
+			nextNumber = currentNumbers[i+1];
+		} else {
+			if (nextNumber) {
+				numbersForPushing = `${firstNumber-1}-${nextNumber-1}`;
+				handledCurrentNumbers.push(numbersForPushing);
+			} else {
+				handledCurrentNumbers.push(String(firstNumber-1));
+				if (firstNumber != currentNumber) {
+					handledCurrentNumbers.push(String(currentNumber-1));
+				};
+			};
+			var firstNumber = false;
+			var nextNumber = false;
+		};
+	};
+	return handledCurrentNumbers;
+};
+
+function createStringMessage(useDecoration=false) {
+	var data = false;
+	if (window.symbols.length > 0) {
+		data = {};
+		// if (window.volumesNamesSelect.value != 'none') {
+		// 	data['volume'] = window.volumesNamesSelect.value;
+		// 	data['source'] = window.volumeSourcesSelect.value;
+		// };
+		data['string'] = joinSymbolsInString();
+		if (useDecoration) {
+			data['string'] = insertDecorationInString(data['string']);
+		} else {
+			var decorationsForSaving = getDecorationsForSaving();
+			if (Object.keys(decorationsForSaving).length > 0) {				
+				data['decorations'] = decorationsForSaving;
+			};
+		};
+		if (window.mainColor) {
+			data['main_color'] = window.mainColor;
+		};
+		if (window.backgroundColor) {
+			data['background_color'] = window.backgroundColor;
+		};
+		var lettersColors = createLettersColors(useDecoration);
+		var lettersColorsForSending = getLettersColorsForSending(lettersColors);
+		if (Object.keys(lettersColorsForSending).length > 0) {
+			data['letters_colors'] = lettersColorsForSending;
+		};
+		// data['direction'] = textDirectionMode.className[0];
+		// data['mode'] = output_mode.value;
+		// addCyclesToMessage(data);
+		// addChangeDirectionToMessage(data);
+		// dontAddInStoreToMessage(data);
+		data = JSON.stringify(data);
+		// console.log(data)
+	} else {
+		alert('Input text!');
+	};
+	return data;
+};
+
+// function addCyclesToMessage(data) {
+// 	if (cycles.value > 1) {
+// 		data['cycles'] = cycles.value;
+// 	};
+// };
+
+// function addChangeDirectionToMessage(data) {
+// 	if (window.changeDirectionCheckBox.checked) {
+// 		data['change_direction'] = true;
+// 	};
+// };
+
+// function dontAddInStoreToMessage(data) {
+// 	if (window.dontAddInStoreCheckBox.checked) {
+// 		data['add_in_stack'] = false;
+// 	};
+// };
+
+function showFormat(event) {
+	var data = createStringMessage(false);
+	if (data) {
+		inputTextArea.value = data;
+		inputSavedCheckBox.checked = true;
+		openInputWindow();
+	};
+};
+
+function showMessagePropertiesWindow(event) {
+	window.messagePropertiesWindow.style.display = 'block';
+	window.inputAvailable = false;
+	window.sendingAvailable = false;
+	window.currentWindow = 'messagePropertiesWindow';
+};
+
+// function showControlWindow(event) {
+// 	window.controlWindow.style.display = 'block';
+// 	window.inputAvailable = false;
+// 	window.sendingAvailable = false;
+// 	window.currentWindow = 'controlWindow';
+// };
+
+// function showMessagesWindow(event) {
+// 	window.messagesWindow.style.display = 'block';
+// 	window.inputAvailable = false;
+// 	window.sendingAvailable = false;
+// 	window.currentWindow = 'messagesWindow';
+// };
+
+// function showProcessesWindow(event) {
+// 	window.processesWindow.style.display = 'block';
+// 	window.inputAvailable = false;
+// 	window.sendingAvailable = false;
+// 	window.currentWindow = 'processesWindow';
+// };
+
+// function showVolumesWindow(event) {
+// 	window.volumesWindow.style.display = 'block';
+// 	window.inputAvailable = false;
+// 	window.sendingAvailable = false;
+// 	window.currentWindow = 'volumesWindow';
+// };
+
+function sendTextMessage(event) {
+	POST_request();
+};
+
+function POST_request(requestMode='string') {
+	// Sending and receiving data in JSON format using POST method
+	var xhr = new XMLHttpRequest();
+	// xhr.open("POST", 'http://192.168.0.100:12345', true);
+	xhr.open("POST", requestModes[requestMode].url, true);
+	xhr.setRequestHeader("X-CSRFToken", window.csrf_token);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.onreadystatechange = function(event) {
+		if (xhr.readyState === 4 && xhr.status === 200) {
+			var json = JSON.parse(xhr.responseText);
+			alert(json["response"]);			
+			// alert(xhr.responseText);
+		};
+	};
+	var data = requestModes[requestMode].function();
+	if (data) {
+		xhr.send(data);
+	};
+};
+
+// function runSendMessagCallBackFunction() {
+// 	if (window.sendMessageCallBackFunction) {
+// 		window.sendMessageCallBackFunction()
+// 		window.sendMessageCallBackFunction = false;
+// 	};
+// };
+
+// function controlMessage() {
+// 	var data = {};
+// 	data['command'] = window.controlMessageCommand;
+// 	if (window.controlMessageProperties) {
+// 		window.controlMessageProperties.forEach(function(eachProperty) {
+// 			data[eachProperty.property_name] = eachProperty.value;
+// 		});
+// 		window.controlMessageProperties = false;
+// 	};
+// 	return JSON.stringify(data);
+// };
+
+// function volumesControlMessage() {
+// 	var data = {};
+// 	data['command'] = window.controlMessageCommand;
+// 	if (window.volumesNamesSelect.value != 'none') {
+// 		data['volume'] = window.volumesNamesSelect.value;
+// 	};
+// 	return JSON.stringify(data);
+// };
+
+// function speedFaster() {
+// 	window.controlMessageCommand = 'speed_up';
+// 	POST_request(requestMode='control');
+// };
+
+// function speedSlower() {
+// 	window.controlMessageCommand = 'slow_down';
+// 	POST_request(requestMode='control');
+// };
+
+// function pause(event) {
+// 	var currentState = event.target.innerHTML.toLowerCase();
+// 	if (currentState == 'pause') {
+// 		var nextState = 'resume';
+// 	} else {
+// 		var nextState = 'pause'
+// 	};
+// 	event.target.innerHTML = nextState.capitalize();
+// 	window.controlMessageCommand = 'pause';
+// 	POST_request(requestMode='control');
+// };
+
+// function sendCommand(event) {
+// 	window.controlMessageCommand = event.target.id;
+// 	POST_request(requestMode='control');
+// };
+
+// function standby(event) {
+// 	window.controlMessageCommand = 'standby';
+// 	POST_request(requestMode='control');
+// };
+
+// function showDateTime(event) {
+// 	window.controlMessageCommand = 'date_time';	
+// 	POST_request(requestMode='control');
+// };
+
+// function changeRepeatMessageStatus(event) {
+// 	changeManuallyMessageStatusButton(event.target);
+// 	window.controlMessageCommand = 'change_repeat_message_status';
+// 	POST_request(requestMode='control');
+// };
+
+// function changeRefreshMessageStatus(event) {
+// 	changeManuallyMessageStatusButton(event.target);
+// 	window.controlMessageCommand = 'change_refresh_message_status';
+// 	POST_request(requestMode='control');
+// };
+
+// function changeDeniedReceivingStatus(event) {
+// 	changeManuallyMessageStatusButton(event.target);
+// 	window.controlMessageCommand = 'change_denied_recieving_status';
+// 	POST_request(requestMode='control');
+// };
+
+// function refreshMainOutputProcessProperties(event) {
+// 	getMainOutputWorkingProcessProperties();
+// };
+
+// function nextMessage(event) {
+// 	window.controlMessageCommand = 'next_message';
+// 	POST_request(requestMode='control');
+// };
+
+// function previousMessage(event) {
+// 	window.controlMessageCommand = 'previous_message';
+// 	POST_request(requestMode='control');
+// };
+
+// function nextReceivedMessage(event) {
+// 	window.controlMessageCommand = 'next_received_message';
+// 	POST_request(requestMode='control');
+// };
+
+// function previousReceivedMessage(event) {
+// 	window.controlMessageCommand = 'previous_received_message';
+// 	POST_request(requestMode='control');
+// };
+
+// function setWorkingProcess(event) {
+// 	window.controlMessageCommand = 'switch_process';
+// 	window.controlMessageProperties = [{property_name: 'process_name',
+// 										value: window.wokingProcessesNamesSelect.value}];
+// 	POST_request(requestMode='control');
+// };
+
+// function startWorkingProcessWithBegining(event) {
+// 	window.controlMessageCommand = 'process_begining';
+// 	window.controlMessageProperties = [{property_name: 'process_name',
+// 										value: window.wokingProcessesNamesSelect.value}];
+// 	POST_request(requestMode='control');
+// };
+
+// function setNextProcess(event) {
+// 	window.controlMessageCommand = 'next_process';
+// 	POST_request(requestMode='control');
+// };
+
+// function setPreviousProcess(event) {
+// 	window.controlMessageCommand = 'previous_process';
+// 	POST_request(requestMode='control');
+// };
+
+// function saveAllMessages(event) {
+// 	window.controlMessageCommand = 'save_all';
+// 	POST_request(requestMode='volumes');
+// };
+
+// function saveVolume(event) {
+// 	window.controlMessageCommand = 'save_volume';
+// 	POST_request(requestMode='volumes');
+// };
+
+// function showMessageFromVolume(event) {
+// 	window.controlMessageCommand = 'show_messages_from_volume';
+// 	window.controlMessageProperties = [{property_name: "volume",
+// 										 value: window.volumeName},
+// 										{property_name: "source",
+// 										value: window.volumeSourcesSelect.value},
+// 										];
+// 	POST_request(requestMode='control');
+// };
+
+// function setDelayTime() {
+// 	window.controlMessageCommand = 'set_delay_time';
+// 	window.controlMessageProperties = [{property_name: 'value',
+// 										value: window.delayTimeField.value}];
+// 	POST_request(requestMode='control');
+// };
+
+// function processMessage() {
+// 	var data = {};
+// 	data['process'] = window.controlMessageCommand;
+// 	return JSON.stringify(data);
+// };
+</script>

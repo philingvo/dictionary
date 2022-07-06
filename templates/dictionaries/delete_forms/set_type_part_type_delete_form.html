@@ -1,0 +1,7 @@
+{% extends "dictionaries/delete_forms/delete_item_check_form.html" %}
+
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete the set_type "{{ object.type }}" out of the part_type "{{ object.set_type }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+<a href="{{object.set_type.get_content_list_url}}">Back to Set Types</a>

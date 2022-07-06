@@ -1,0 +1,25 @@
+.model_name, {
+	text-decoration: underline;
+}
+
+.object_title a {
+	color: blue;
+	text-decoration: none;
+	cursor: pointer;
+	padding: 5px;
+}
+
+.big_button a {
+	border-radius: 5px;
+	border: 1px solid gray;
+	padding: 0 5px 5px 5px;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 5px;
+	color: blue;
+	padding: 5px;
+}
+
+.big_button a:hover {
+	background-color: pink;
+}

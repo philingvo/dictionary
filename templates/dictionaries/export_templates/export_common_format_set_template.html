@@ -1,0 +1,29 @@
+{% extends "basic_template.html" %}
+
+{% block page_title_content %}
+Export common formated set: {{ set }}
+{% endblock %}
+
+{% block css_styles %}
+{{ block.super }}
+{% endblock %}
+
+{% block front %}
+<h1>Export common formated set: <a href="{{ set.get_content_list_url }}">{{ set }}</a></h1>
+<form method="post" action="{{ set.get_export_common_format_url }}">
+{% csrf_token %}
+<input id="set_id" name="set" class="hidden" value="{{set.id}}">
+<table>
+	{{ form.as_table }}
+</table>
+<h3 class="big_button" id="copy"><a>Copy exporting text into the clipboard</a></h3>
+<div>
+	<button type="submit">Download as a file</button>
+</div>
+</form>
+{% endblock %}
+
+{% block scrips_block %}
+	{% load static %}
+	<script src={% static "js/export_common_format_set_text.js" %}></script>
+{% endblock %}

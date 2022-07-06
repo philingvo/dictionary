@@ -1,0 +1,44 @@
+{% extends "dictionaries/content_lists/list_base.html" %}
+
+{% block page_title %}
+{{ container_name }}: {{ container }}
+{% endblock %}
+
+{% block container_block %}
+	<h1><span id="container_name">{{ container_name }}</span>: <a id="container_object_title" href="{{ container.get_absolute_url }}">{{ container }}</a></h1>
+
+	{% block abstract %}
+		{% if container.abstract %}
+		<h3>Abstract:</h3><span>{{ container.abstract }}</span>
+		{% endif %}
+	{% endblock %}
+
+	{% if container_container_name %}
+	<h3 class="big_button"><a href="{{ container.get_containers_list_url }}">Show {{ container_container_name.lower }} containing this {{container_name.lower}}</a></h3>
+	{% endif %}
+
+	<h3>This {{ container_name.lower }} contains {{object_list.count}} {{ content_name.lower }}</h3>
+{% endblock %}
+
+{% block content_block %}
+	<h2>{{ content_name }}:</h2>
+{% endblock %}
+
+{% block zoom_container %}
+	<div class="zoom_container">
+		<div>{{ object.get_content_item.created_at }}</div>
+		{% if object.abstract %}
+			<div>{{ object.get_content_item.abstract }}</div>
+		{% else %}
+			<div class="faded">No abstract yet</div>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block no_content_yet %}
+	<div>No {{ content_name.lower }} yet. <a href="{{add_new_item_into_end_url}}">Add a new {{content_field_name.lower}}</a> or <a href="{{container.get_insert_content_item_into_container_url}}">Insert ones from base</a></div>
+{% endblock %}
+
+{% block footer_block_extension %}
+<div class="big_button"><a href="{{ container.get_insert_content_item_into_container_url }}">Insert {{ content_name.lower }} from base</a></div>
+{% endblock %}

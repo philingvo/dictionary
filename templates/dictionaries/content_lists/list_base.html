@@ -1,0 +1,147 @@
+{% extends "basic_template.html" %}
+
+		{% block css_styles %}
+			{{ block.super }}
+			{% load static %}
+			<link href="{% static "css/list.css" %}" rel="stylesheet">			
+		{% endblock %}
+
+		{% block front %}
+		<div id="change_position_url" class="hidden">{{change_position_url}}</div>
+		<div id="container_id" class="hidden">{{ container_id }}</div>
+		<div id="links_path"></div>
+		
+		{% block csrf_tokens %}
+		<form id="csrf_token_color" method="post" action="{% url 'save_item_color' %}" class="hidden">
+			{% csrf_token %}
+		</form>
+		{% endblock %}
+		
+		{% block container_block %}
+		<h1 id="container_name">{{ container_name }}</h1>
+		<h3>There are {{ object_list.count }} {{ container_name.lower }}</h3>
+		
+		{% endblock %}
+		
+		{% block additional_information %}
+		{% endblock %}
+
+		{% block content_block %}
+		{% endblock %}
+
+		{% if object_list %}
+		<hr>
+		<table>
+			<tbody>
+				{% block table_header %}
+				{% endblock %}
+				
+				{% for object in object_list %}
+					<tr data-position="{{ object.position }}">
+
+					{% block move_position_block %}
+					{% if object.position > 0 %}
+					<td class="position_up"><a href="{{ object.get_change_position_up_url }}">↑</a></td>
+					<td class="position_down"><a href="{{ object.get_change_position_down_url }}">↓</a></td>
+					{% else %}
+					<td class="position_up blocked_button"><a>↑</a></td>
+					<td class="position_down blocked_button"><a>↓</a></td>
+					{% endif %}
+					{% endblock %}
+
+					{% block position_block %}
+					<td class="position">
+					{% if object.position > 0 %}
+						<a href="{{ object.get_content_list_url }}">{{ object.position }}</a>
+					{% else %}
+						<a></a>
+					{% endif %}
+
+					{% block zoom_container %}
+					{% endblock %}
+
+					</td>
+					{% endblock %}
+
+					{% block content_item_text_block %}
+					<td class="content_item_text">
+						<a href="{{ object.get_content_list_url }}">{{ object }}</a>
+					</td>
+					{% endblock %}
+
+					{% block color %}
+					<td class="item_color">
+						<span data-type="{{content_field_name.lower}}" data-id="{{object.get_item_id}}"
+						{% if object.color %}
+							style="background-color: {{object.color}}; 
+							{% if object.color != 'white' %}border-color: {{object.color}};{% endif %}">
+						{% else %}
+							class="without_color">
+						{% endif %}
+						</span>
+					</td>
+					{% endblock %}
+
+					{% block storage %}
+					{% if object.is_storage %}
+						<td class="storage_button"><a>Storage</a></td>
+					{% else %}
+						<td class="empty_cell"></td>
+					{% endif %}
+					{% endblock %}
+
+					<td class="details">
+					{% block details_block %}<a href="{{ object.get_details_url }}">Details</a>{% endblock %}
+					</td>
+
+					{% block activate %}
+					{% endblock %}
+					
+					{% block delete_block %}
+					{% if object.position > 0 %}
+						<td class="delete_button"><a href="{{ object.get_delete_url }}">Delete</a></td>
+					{% else %}
+						<td class="delete_button blocked_button"><a>Delete</a></td>
+					{% endif %}
+					{% endblock %}
+
+					{% block change_position_block %}
+					{% if object.position > 0 %}
+						<td class="change_position_button"><a>Change position</a></td>
+					{% else %}
+						<td class="change_position_button blocked_button"><a>Change position</a></td>
+					{% endif %}
+					{% endblock %}
+					
+					</tr>
+				{% endfor %}
+				<tr data-position="end">
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		{% else %}
+			{% block no_content_yet %}
+			{% endblock %}
+		{% endif %}
+		<div class="anti_footer"></div>
+	{% endblock %}
+		
+	{% block footer_block %}
+	<div class="footer">
+		<div class="big_button"><a id="add_new_item">Add new {{ content_field_name.lower }}</a></div>
+		<div class="big_button"><a href="{{ add_new_item_into_end_url }}" id="add_new_item_into_end">Add new {{ content_field_name.lower }} into end</a></div>
+		
+		{% block footer_block_extension %}
+		{% endblock %}
+
+		<div class="big_button"><a id="cancel_adding" class="hidden">Cancel</a></div>
+	</div>
+	{% endblock %}
+
+	{% block scrips_block %}
+	<script src={% static "js/change_position.js" %}></script>
+	<script src={% static "js/add_new_item.js" %}></script>
+	<script src={% static "js/create_pathlinks.js" %}></script>
+	<script src={% static "js/assign_item_color.js" %}></script>
+	{% endblock %}

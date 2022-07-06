@@ -1,0 +1,93 @@
+{% extends "dictionaries/content_lists/list_with_container_base.html" %}
+
+{% block abstract %}
+<h3>Abstract:</h3>
+<div class="comment_container">
+	{% if container.abstract %}
+	<span class="comment_text">{{ container.abstract }}</span>
+	<a class="pronounce_button" target="_blank" href="{{container.get_pronounce_element_abstract_text_url}}">🔊</a>
+	{% else %}
+	<span class="comment_text faded">No abstract yet</span>
+	{% endif %}
+	<span class="edit_button edit_active" data-type="element" data-id="{{ container.id }}">✎</span>
+</div>
+{% endblock %}
+
+{% block additional_information %}
+<h3 class="big_button"><a href={{container.get_absolute_url}}>Edit element properties</a></h3>
+{% if container.parts_in_element_exisit %}
+<h3 class="big_button"><a href="{{ container.get_correct_element_parts_url }}">Edit element's parts</a></h3>
+{% else %}
+<h3 class="warning">There is no one part type for this element's set type. Add part type into this element's set type!</h3> 
+<h3 class="big_button"><a href="{{ container.type.get_absolute_url }}">Add parts types into this element's set type</a></h3>
+{% endif %}
+{% endblock %}
+
+{% block csrf_tokens %}
+{{ block.super }}
+<form id="csrf_token_comment" method="post" action="{% url 'save_comment' %}" class="hidden">
+	{% csrf_token %}
+</form>
+{% endblock %}
+
+{% block move_position_block %}
+{% endblock %}
+
+{% block position_block %}
+<td class="position"><span>{{ object.position }}</span></td>
+{% endblock %}
+
+{% block content_item_text_block %}
+<td>
+{% if object.part.content %}
+	<a class="pronounce_button" target="_blank" href="{{ object.part.get_pronounce_part_text_url}}">🔊</a>
+{% else %}
+	<span class="pronounce_button blocked">🔊</span>
+{% endif %}
+</td>
+<td class="content_item_text text_part {% if not object.part.content %}faded{% endif %}">	
+<a {% if object.part.main_color %} style="color: {{ object.part.main_color }}" {% endif %}
+href="{{ object.part.get_correct_part_url }}">
+{% if object.part.content %}
+	<span>{{object.part.content}}</span>
+{% else %}
+	No content yet
+{% endif %}</a>
+</td>
+<td>
+	<div class="comment_container">
+	{% if object.part.comment %}
+		<span class="comment_text">{{ object.part.comment }}</span>
+		<a class="pronounce_button" target="_blank" href="{{ object.part.get_pronounce_part_comment_text_url}}">🔊</a>
+	{% else %}
+		<span class="comment_text faded">No comment yet</span>
+	{% endif %}
+		<span class="edit_button edit_active" data-type="part" data-id="{{ object.part.id }}">✎</span>
+	</div>
+</td>
+<td><a href="{{object.part.type.get_absolute_url}}">{{object.part.type}}</a></td>
+{% endblock %}
+
+{% block storage %}
+{% endblock %}
+
+{% block delete_block %}
+{% endblock %}
+
+{% block change_position_block %}
+{% endblock %}
+
+{% block color %}
+{% endblock %}
+
+{% block no_content_yet %}
+{% endblock %}
+
+{% block scrips_block %}
+{{ block.super}}
+{% load static %}
+<script src={% static "js/comment_buttons.js" %}></script>
+{% endblock %}
+
+{% block footer_block %}
+{% endblock %}

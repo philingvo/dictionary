@@ -1,0 +1,47 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+Languages
+{% endblock %}
+
+{% block page_title_content %}
+Languages
+{% endblock %}
+
+{% block css_styles %}
+{{block.super}}
+{% load static %}
+<link href="{% static "css/list.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block front %}
+{% block container_block %}
+<h1 id="container_name">{{ container_name }}</h1>
+<h3>There are {{ object_list.count }} {{ container_name.lower }}</h3>
+{% endblock %}
+{% if object_list %}
+<hr>
+<table>
+	<tbody>
+	{% for object in object_list %}
+		<tr>
+			<td class="content_item_text"><a href="{{object.get_absolute_url}}">{{ object }}</a></td>			
+			{% if object.default %}
+			<td class="delete_button blocked_button"><a>Delete</a></td>
+			{% else %}
+			<td class="delete_button"><a href="{{object.get_delete_url}}">Delete</a></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<div>No languages yet. <a href="{{ add_new_item_into_end_url }}">Add the first one</a></div>
+{% endif %}
+{% endblock %}
+
+{% block footer_block %}
+<div class="footer">
+	<div class="big_button"><a id="add_new_item" href="{{ add_new_item_into_end_url }}">Add new {{ container_name.lower|slice:":-1" }}</a></div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+{{ container_name }}
+{% endblock %}
+
+{% block page_title_content %}
+{{ container_name }}
+{% endblock %}
+
+{% block css_styles %}
+{{block.super}}
+{% load static %}
+<link href="{% static "css/list.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block front %}
+{% block container_block %}
+<h1 id="container_name">{{ container_name }}</h1>
+<h3>There are {{ object_list.count }} {{ container_name.lower }}</h3>
+{% endblock %}
+<p class="warning">Part type's deleting is not possible when a choosen part is included in at least one set type and there are parts of a choosen part type.
+If you really want to delete a choosen part type, delete a choosen part type out of all sets types containing a choosen part type and this way all parts of a choosen part type also will be deleted out of elements in related sets!</p>
+
+{% if object_list %}
+<hr>
+<table>
+	<tbody>
+	{% for object in object_list %}
+		<tr>
+			<td class="content_item_text"><a href="{{object.get_absolute_url}}">{{ object }}</a></td>
+			{% if not object.ready_to_delete %}
+			<td class="delete_button blocked_button"><a>Delete</a></td>
+			{% else %}
+			<td class="delete_button"><a href="{{object.get_delete_url}}">Delete</a></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<div>No Part Types yet. <a href="{{ add_new_item_into_end_url }}">Add the first one</div>
+{% endif %}
+
+{% endblock %}
+
+{% block footer_block %}
+<div class="footer">
+	<div class="big_button"><a id="add_new_item" href="{{ add_new_item_into_end_url }}">Add new set type</a></div>
+</div>
+{% endblock %}

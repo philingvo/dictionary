@@ -1,0 +1,41 @@
+{% extends "dictionaries/insert_forms/insert_form.html" %}
+
+{% block front %}
+<div class="hidden">{{ set.id }}</div>
+<h1>Insert element(s) into the set: <span class="title">{{ object }}</span></h1>
+<h2>Set type: <span class='title'>{{ set.type }}</span></h2>
+<form method="post">
+	{% csrf_token %}
+	<p>
+		<select id="select-set" name="set" title="Choose set">
+			<option value=null>--- Choose set ---</option>
+			{% for set_item in sets %}
+			<option value="{{ set_item.id }}"
+			{% if set_item.color %}style="background-color: {{ set_item.color }}"{% endif %}>
+				{{ set_item.title }}
+			</option>
+			{% endfor %}
+		</select>
+	</p>
+	<p>
+		<select id="select-element" name="element" class="hidden" title="Choose element" multiple="multiple" required>
+		</select>
+	</p>
+	<p>
+		<label for="remove_from_source">Remove element(s) from source set</label>
+		<input type="checkbox" name="remove_from_source">
+	</p>
+	<input id="submit" type="submit" value="Insert element(s)" class="hidden">
+</form>
+
+{% block back_button %}
+<hr>
+<h3 class="big_button"><a href="{{ object.get_content_list_url }}">Back to element</a></h3>
+{% endblock %}
+
+{% endblock %}
+
+{% block scrips_block %}
+{% load static %}
+<script src={% static "js/insert_element_in_set.js" %}></script>
+{% endblock %}

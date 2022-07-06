@@ -1,0 +1,7 @@
+{% extends "dictionaries/details/details_template.html" %}
+
+{% block details_list %}
+<h1>{{model_name}} details:</h1>
+{{ block.super }}
+<a href="{{ object.get_containers_list_url}}">Show elements containing this part</a>
+{% endblock %}

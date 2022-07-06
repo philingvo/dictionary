@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+		{% block page_title %}
+		{% endblock %}
+		</title>
+
+		{% block css_styles %}
+		{% load static %}
+		<link href="{% static 'css/header_menu.css' %}" rel="stylesheet">
+		{% endblock %}
+	</head>
+	<body>
+		{% block header_menu %}
+		<div id="header">
+			<div class="menu_button"><a href="{% url 'show_subjects' %}">Subjects</a></div>
+			<div class="menu_button"><a href="{% url 'show_storage_subjects' %}">Storage Subjects</a></div>
+			<div class="menu_button"><a href="{% url 'sets_types' %}">Sets types</a></div>
+			<div class="menu_button"><a href="{% url 'parts_types' %}">Parts types</a></div>
+			<div class="menu_button"><a href="{% url 'languages' %}">Languages</a></div>
+			<div class="menu_button"><a href="{% url 'notes' %}">Notes</a></div>
+			<div class="menu_button"><a href="{% url 'import_common_formated_set' %}">Import set</a></div>
+			<div class="menu_button"><a href="{% url 'import_native_formated_set' %}">Import P-set</a></div>
+			<div class="menu_button"><a href="{% url 'show_playlists' %}">Playlists</a></div>
+			<div class="menu_button"><a href="{% url 'user_profile' %}">User</a></div>
+			<div class="menu_button"><a href="{% url 'pronunciations_list' %}">Pronunciations</a></div>
+		</div>
+		<div id="anti_header"></div>
+		{% endblock %}
+
+		{% block front %}
+		{% endblock %}
+
+		{% block footer_block %}
+		{% endblock %}
+	</body>
+{% block scrips_block %}
+{% endblock %}
+</html>

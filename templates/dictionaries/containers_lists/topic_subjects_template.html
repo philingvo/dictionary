@@ -1,0 +1,13 @@
+<h1>Topic: <a href='{{topic.get_content_list_url}}'>{{ topic }}</a></h1>
+<h2>Subjects containing this topic:</h2>
+<ul>
+{% for topic in object_list %}
+	<li>
+		<span>{{ topic.subject }}</span>
+		<a href='{{ topic.subject.get_content_list_url }}'>Topics list</a>
+		<a href='{{ topic.subject.get_absolute_url }}'>Definition</a>
+	</li>
+{% empty %}
+	<li>This topic hasn't been put into any subject yet.</li>
+{% endfor %}
+</ul>

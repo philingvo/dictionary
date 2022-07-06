@@ -1,0 +1,14 @@
+<h1>Set: <a href='{{ set.
+get_content_list_url }}'>{{ set }}</a></h1>
+<h2>Topics containing this set:</h2>
+<ul>
+{% for topic in object_list %}
+	<li>
+		<span> {{ topic.topic }}</span>
+		<a href="{{ topic.topic.get_content_list_url }}">Sets list</a>
+		<a href="{{ topic.topic.get_absolute_url }}">Definition</a>
+	</li>
+{% empty %}
+	<li>This set hasn't been put into any topic yet.</li>
+{% endfor %}
+</ul>

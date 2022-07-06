@@ -1,0 +1,7 @@
+{% extends "dictionaries/delete_forms/delete_item_check_form.html" %}
+
+{% block warning %}
+{% if object.set.storage %}
+<p class="warning">This is a storage set! After deleting this set you can't recover elements in this storage!</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+Import common formated set
+{% endblock %}
+
+{% block page_title_content %}
+Import common formated set
+{% endblock %}
+
+{% block css_styles %}
+{{ block.super }}
+{% endblock %}
+
+{% block front %}
+<h1>Import common formated set</h1>
+<form method="post" action="{% url 'import_common_formated_set'%}">
+	{% csrf_token %}
+	<div class="warning">{{ form.non_field_errors }}</div>
+	<p>
+		<select id="select-subject" name="subject" title="Choose subject" required>
+			<option value>--- Choose subject ---</option>
+			<option value><<< Active subjects >>></option>
+			{% for subject_item in subjects.get_active_subjects %}
+			<option value="{{ subject_item.id }}"
+			{% if subject_item.color %}style="background-color: {{ subject_item.color }}"{% endif %}>
+				{{ subject_item.title }}
+			</option>
+			{% endfor %}
+			<option value><<< Storage subjects >>></option>
+			{% for subject_item in subjects.get_storage_subjects %}
+			<option value="{{ subject_item.id }}"
+			{% if subject_item.color %}style="background-color: {{ subject_item.color }}"{% endif %}>
+				{{ subject_item.title }}
+			</option>
+			{% endfor %}
+		</select>
+	</p>
+	<p id="topic-container"></p>
+	<p>
+	<table>
+	{{ form.as_table }}
+	</table>
+	<div>
+		<button type="submit">Import</button>
+	</div>
+</form>
+{% endblock %}
+
+{% block scrips_block %}
+{% load static %}
+<script src={% static "js/import_format_set.js" %}></script>
+{% endblock %}

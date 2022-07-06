@@ -1,0 +1,27 @@
+{% extends "basic_template.html" %}
+
+{% block page_title_content %}
+Delete {{content_model_name}} - {{ object }}
+{% endblock %}
+
+{% block css_styles %}
+{{block.super}}
+{% endblock %}
+
+{% block front %}
+	<form method="post">{% csrf_token %}
+		{% block question %}
+		<p>Are you sure you want to delete the {{content_model_name}} "{{ object }}"?</p>
+		{% endblock %}
+		{% block warning %}
+		<p class="warning">After deleting you can't recover this {{content_model_name}}!</p>
+		{% endblock %}
+		<input type="submit" value="Confirm">
+	</form>
+
+	{% block back_button %}
+	<hr>
+	<h3 class="big_button"><a href="{{ object.get_list_url }}">Back to {{ content_model_name.lower }} list</a></h3>
+	{% endblock %}
+	
+{% endblock %}

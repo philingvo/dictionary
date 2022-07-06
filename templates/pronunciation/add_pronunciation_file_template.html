@@ -1,0 +1,17 @@
+{% extends "pronunciation/basic_pronunciation_app_template.html" %}
+
+{% block page_title %}
+	{{title}} {{pronunciation}}
+{% endblock %}
+
+{% block front %}
+<h1>{{title}} <a href="{{pronunciation.get_absolute_url}}">{{pronunciation}}</a></h1>
+
+<form method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<p>
+		<button type="submit">Add pronunciation file</button>
+	</p>
+</form>
+{% endblock %}

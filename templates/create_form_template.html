@@ -1,0 +1,27 @@
+{% extends "basic_template.html" %}
+
+{% block page_title_content %}
+Create {{content_model_name}}
+{% endblock %}
+
+{% block css_styles %}
+{{block.super}}
+{% endblock %}
+
+{% block front %}
+	{% block heading %}
+	<h1>Create and put a new {{ content_model_name }} into {{ container_model_name}}: {{ container }}</h1>
+	{% endblock %}
+	<form method="post">{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Save">
+	</form>
+	{% if error %}
+		<p class="warning">{{error}}!</p>
+	{% endif %}
+
+	{% block back_button %}
+	<hr>
+	<h3 class="big_button"><a href="{{ back_container_url }}">Back to {{ container_model_name.lower }} list</a></h3>
+	{% endblock %}
+{% endblock %}

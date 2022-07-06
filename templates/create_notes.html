@@ -1,0 +1,41 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+Notes
+{% endblock %}
+
+{% block page_title_content %}
+Notes
+{% endblock %}
+
+{% block css_styles %}
+{{ block.super }}
+{% load static %}
+	<link href="{% static 'css/create_notes.css' %}" rel="stylesheet">
+<title>Add notes</title>
+{% endblock %}
+
+{% block front %}
+<form id="csrf_token" method="post" action="{% url 'notes' %}" class="hidden">
+	{% csrf_token %}
+</form>
+<div>
+	<select id="select-set" name="set" title="Choose available set">
+		<option value=null>--- Choose available set ---</option>
+		{% for set in sets %}
+		<option value="{{ set.id }}"s
+		{% if set.color %}style="background-color: {{ set.color }}"{% endif %}>
+		{{ set.title_with_language }}</option>
+		{% endfor %}
+	</select>
+</div>
+<div id="element_form">
+</div>
+<div id="save_button" class="hidden">SAVE NOTE</div>
+{% endblock %}
+
+{% block scrips_block %}
+	{% load static %}
+	<script src={% static "js/create_notes.js" %}></script>
+	<script src={% static "js/textarea_autosize.js" %}></script>
+{% endblock %}

@@ -1,0 +1,13 @@
+<h1>Part: <a href='{{ part.get_absolute_url }}'>{{ part }}</a></h1>
+<h2>Elements containing this part:</h2>
+<ul>
+{% for element in object_list %}
+	<li>
+		<span>{{ element.element }}</span>
+		<a href='{{ element.element.get_content_list_url }}'>Parts list</a>
+		<a href='{{ element.element.get_absolute_url }}'>Details</a>
+	</li>
+{% empty %}
+	<li>This part hasn't been put into any element yet.</li>
+{% endfor %}
+</ul>

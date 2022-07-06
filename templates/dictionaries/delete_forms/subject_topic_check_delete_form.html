@@ -1,0 +1,5 @@
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete the topic "{{ object.topic }}" out of the subject "{{ object.subject }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+<a href="{{object.subject.get_content_list_url}}">Back to Subject</a>

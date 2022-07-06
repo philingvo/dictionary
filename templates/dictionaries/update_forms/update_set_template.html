@@ -1,0 +1,8 @@
+{% extends "dictionaries/update_forms/update_template_form.html" %}
+
+{% block containers_button %}
+<h3 class="big_button"><a href="{{ object.type.get_absolute_url }}">Set type "{{object.type}}" properies</a></h3>
+<h3 class="big_button"><a href="{{ object.get_export_native_format_url }}">Export and download Philingvo formated set as a file</a></h3>
+<h3 class="big_button"><a href="{{ object.get_export_common_format_url }}">Export common formated set</a></h3>
+
+{% endblock %}

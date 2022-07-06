@@ -1,0 +1,119 @@
+{% extends "dictionaries/content_lists/list_with_container_base.html" %}
+
+{% block csrf_tokens %}
+<form id="csrf_token_comment" method="post" action="{% url 'save_comment' %}" class="hidden">
+	{% csrf_token %}
+</form>
+{% endblock %}
+
+{% block table_header %}
+<tr class="table_header">
+	<td><a> </a></td>
+	<td><a> </a></td>
+	<td><a> </a></td>
+	{% for part_type in parts_types %}
+	<td>
+		<a href="{{part_type.type.get_absolute_url}}">{{part_type.position_with_type}}</a>
+	</td>
+	{% endfor %}
+	<td><a> </a></td>
+	<td><a> </a></td>
+	<td><a> </a></td>
+</tr>
+{% endblock %}
+
+{% block position_block %}
+<td id="{{ object.position }}" class="position">
+	<a href="{% if parts_in_element_exisit %}
+		{{ object.get_correct_set_element_first_part }}
+	{% else %}
+		{{ object.get_details_url}}
+	{% endif %}">
+	{{ object.position }}</a>
+
+	<div class="zoom_container">
+		<div>{{ object.element.created_at }}</div>
+		<div class="comment_container">
+			{% if object.element.abstract %}
+			<span class="comment_text">{{ object.element.abstract }}</span>
+			<a class="pronounce_button" target="_blank" href="{{object.element.get_pronounce_element_abstract_text_url}}">🔊</a>
+			{% else %}
+			<span class="comment_text faded">No abstract yet</span>
+			{% endif %}
+			<span class="edit_button edit_active" data-type="element" data-id="{{ object.element.id }}">✎</span>
+		</div>
+	</div>
+
+</td>
+{% endblock %}
+
+{% block content_item_text_block %}
+{% if object.get_parts_with_urls %}
+	{% for part in object.get_parts_with_urls %}
+		<td class="content_item_text text_part
+			{% if not part.part.content %}faded{% endif %}">
+			<a {% if part.main_color %}
+				style="color: {{ part.main_color }}"
+				{% endif %}
+				href="{{ part.show_part_url }}">
+			{% if part.part.content %}
+				{{part.part.content}}
+			{% else %}
+				No content yet
+			{% endif %}
+			</a>
+			
+			<div class="zoom_container">
+				<div class="part_text">
+					<span {% if part.main_color %}
+						style="color: {{ part.main_color }}"
+						{% endif %}>
+					{% if part.part.content %}
+						{{part.part.content}}
+						<a class="pronounce_button" target="_blank" href="{{ part.part.get_pronounce_part_text_url}}">🔊</a>
+					{% else %}
+						No content yet
+					{% endif %}
+					</span>
+					<a class="edit_button" href="{{ part.edit_part_url }}">✎</a>
+				</div>
+				<hr>
+				<div class="comment_container">
+					{% if part.part.comment %}
+						<span class="comment_text">{{part.part.comment}}</span>
+						<a class="pronounce_button" target="_blank" href="{{ part.part.get_pronounce_part_comment_text_url}}">🔊</a>
+					{% else %}
+						<span class="comment_text faded">No comment yet</span>
+					{% endif %}
+						<span class="edit_button edit_active" data-type="part" data-id="{{ part.part.id }}">✎</span>
+					</div>
+				</div>
+			</div>
+
+		</td>
+	{% endfor %}
+{% else %}
+	<td class="content_item_text faded"><a href="{{ object.element.type.get_absolute_url}}">Parts' types haven't been assigned yet</a></td>
+{% endif%}
+{% endblock %}
+
+{% block storage %}
+{% endblock %}
+
+{% block color %}
+{% endblock %}
+
+{% block details_block %}
+<a href="{{ object.element.get_content_list_url }}">Show element</a>
+{% endblock %}
+
+{% block scrips_block %}
+{{ block.super}}
+{% load static %}
+<script src={% static "js/highlight_element.js" %}></script>
+<script src={% static "js/comment_buttons.js" %}></script>
+{% endblock %}
+
+{% block footer_block_extension %}
+<div class="big_button"><a href="{{ container.get_insert_content_item_into_container_url }}">Insert {{ content_name.lower }} from store</a></div>
+{% endblock %}

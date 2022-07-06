@@ -1,0 +1,29 @@
+{% extends "dictionaries/content_lists/list_with_container_base.html" %}
+
+{% block color %}
+<td class="notes_available">
+	<input data-id="{{object.get_item_id}}" type="checkbox"
+	{% if object.set.notes_available %} checked title="Available for notes"
+	{% else %} title="Not available for notes"
+	{% endif %}>
+</td>
+{{block.super}}
+{% endblock %}
+
+{% block footer_block %}
+<div class="footer">
+	<div class="big_button"><a href="{{ container.get_insert_content_item_into_container_url }}">Insert {{ content_name.lower }} from base</a></div>
+	<div class="big_button"><a id="cancel_adding" class="hidden">Cancel</a></div>
+	<a href="{{ add_new_item_into_end_url }}" id="add_new_item_into_end" class="hidden"></a>
+</div>
+{% endblock %}
+
+{% block no_content_yet %}
+	<div>No {{ content_name.lower }} yet. <a href="{{container.get_insert_content_item_into_container_url}}">Insert ones from base</a></div>
+{% endblock %}
+
+{% block scrips_block %}
+{{block.super}}
+{% load static %}
+<script src={% static "js/assign_set_available_for_notes.js" %}></script>
+{% endblock %}

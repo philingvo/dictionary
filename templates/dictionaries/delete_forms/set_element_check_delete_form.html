@@ -1,0 +1,5 @@
+{% extends "dictionaries/delete_forms/delete_item_check_form.html" %}
+
+{% block warning %}
+<p class="warning">If you're deleting {{content_model_name|slice:"-1"}} out of storage {{ container_model_name }}, after deleting you can't recover this {{content_model_name|slice:"-1"}}!</p>
+{% endblock %}

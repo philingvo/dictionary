@@ -1,0 +1,49 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+Import Philingvo formated set
+{% endblock %}
+
+{% block page_title_content %}
+Import Philingvo formated set
+{% endblock %}
+
+{% block css_styles %}
+{{ block.super }}
+{% endblock %}
+
+{% block front %}
+<h1>Import Philingvo formated set</h1>
+<form method="post" action="{% url 'import_native_formated_set' %}" enctype="multipart/form-data">
+	{% csrf_token %}
+	<p>
+		<select id="select-subject" name="subject" title="Choose subject">
+			<option value>--- Choose subject ---</option>
+			<option value><<< Active subjects >>></option>
+			{% for subject_item in subjects.get_active_subjects %}
+			<option value="{{ subject_item.id }}"
+			{% if subject_item.color %}style="background-color: {{ subject_item.color }}"{% endif %}>
+				{{ subject_item.title }}
+			</option>
+			{% endfor %}
+			<option value><<< Storage subjects >>></option>
+			{% for subject_item in subjects.get_storage_subjects %}
+			<option value="{{ subject_item.id }}"
+			{% if subject_item.color %}style="background-color: {{ subject_item.color }}"{% endif %}>
+				{{ subject_item.title }}
+			</option>
+			{% endfor %}
+		</select>
+	</p>
+	<p id="topic-container"></p>
+	<p>
+		<input id="set_file" type="file" name="set_file" class="hidden" required>
+	</p>
+	<input id="submit" type="submit" class="hidden" value="Import">
+</form>
+{% endblock %}
+
+{% block scrips_block %}
+	{% load static %}
+	<script src={% static "js/import_format_set.js" %}></script>
+{% endblock %}

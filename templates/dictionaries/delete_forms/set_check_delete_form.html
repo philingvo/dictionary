@@ -1,0 +1,16 @@
+{% extends "dictionaries/delete_forms/delete_item_check_form.html" %}
+
+{% block question %}
+    <p>Are you sure you want to delete the set "{{ object }}" from all topics and the storage topic?</p>
+{% endblock %}
+
+{% block warning %}
+<p class="warning">After deleting you can't recover this set!</p>
+{% if object.storage %}
+<p class="warning">This is a storage set! After deleting this set you can't recover elements in this storage!</p>
+{% endif %}
+{% endblock %}
+
+{% block back_button %}
+	<h3 class="big_button"><a href="{{ object.type.get_containers_list_url }}">Back to sets list for the "{{object.type}}" set type</a></h3>
+{% endblock %}

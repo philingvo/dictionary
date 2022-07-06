@@ -1,0 +1,26 @@
+{% extends "dictionaries/containers_lists/containers_list.html" %}
+
+{% block front %}
+	<h1>{{ content_name.capitalize }}: <a id="container_object_title" href='{% if content_object.get_content_list_url %}{{ content_object.get_content_list_url }}{% else %} {{content_object.get_absolute_url}} {% endif %}'>{{ content_object }}</a></h1>
+	{% if object_list %}
+	<h2>There are {{ object_list.count }} {{ container_name }}s with {{ content_name }}:</h2>
+	<hr>
+		<table>
+			<tbody>
+				{% for object in object_list %}
+				<tr>
+					<td class="content_item_text"><a href="{{ object.get_content_list_url }}">{{ object }}</a></td>
+					<td {% if object.storage %} class="storage_button"><a>Storage</a>
+					{% else %}{% endif %}</td>
+					<td class="details"><a href="{{ object.get_absolute_url }}">Details</a></td>
+					<td class="delete_button"><a href="{{ object.get_delete_url }}">Delete</a></td>
+				</tr>
+				{% endfor %}
+		</table>
+	{% else %}
+		<div>There is no one {{ container_name }} with this {{ content_name }} type yet.</div>
+	{% endif %}
+
+<hr>
+<h3 class="big_button"><a href="{{ content_object.get_list_url }}">Back to Sets Types list</a></h3>
+{% endblock %}

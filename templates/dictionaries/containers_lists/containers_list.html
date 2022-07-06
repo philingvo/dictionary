@@ -1,0 +1,31 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+{{ content_name.capitalize }}: {{ content_object }} in {{ container_name.capitalize }}s
+{% endblock %}
+
+{% block css_styles %}
+{{block.super}}
+{% load static %}
+<link href="{% static "css/list.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block front %}
+	<h1>{{ content_name.capitalize }}: <a id="container_object_title" href='{% if content_object.get_content_list_url %}{{ content_object.get_content_list_url }}{% else %} {{content_object.get_absolute_url}} {% endif %}'>{{ content_object }}</a></h1>
+	{% if object_list %}
+	<h2>{{ object_list.count }} {{ container_name }}s contain(s) this {{content_name}}:</h2>
+	<hr>
+		<table>
+			<tbody>
+				{% for object in object_list %}
+					<tr>
+						<td class="content_item_text"><a href="{{ object.get_container_content_list_url }}">{{ object.container_description }}</a></td>
+						<td class="details"><a href="{{ object.get_container_details_url }}">Details</a></td>
+						<td></td>
+					</tr>
+				{% endfor %}
+		</table>
+	{% else %}
+		<div>This {{ content_name }} hasn't been put into any {{ container_name }} yet.</div>
+	{% endif %}
+{% endblock %}

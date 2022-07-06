@@ -1,0 +1,7 @@
+{% extends "dictionaries/update_forms/update_template_form.html" %}
+
+{% block containers_button %}
+<h2 class="big_button"><a href="{{ object.get_containers_list_url }}">Show elements containing this part</a></h2>
+<h3 class="warning">If styles have been assigned for the content, don't change Content and Styles fields!</h3>
+<h3 class="warning">If you need to change and fill a content text and its styles, do it on the proper page. If you do it here and break the content styles structure, content outputting can work improperly!</h3>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "dictionaries/update_forms/update_template_form.html" %}
+
+{% block css_styles %}
+{{block.super}}
+{% load static %}
+	<link href="{% static "css/list.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block front %}
+
+<h1><span>{{ model_name }}: </span><a id="container_object_title">{{object.name}}</a></h1>
+
+<h3 class="big_button"><a href="{{ object.get_containers_list_url }}">Show sets with this {{ model_name }}</a></h3>
+
+{% block form %}
+{{block.super}}
+{% endblock %}
+
+{% block csrf_tokens %}
+<form id="csrf_token_color" method="post" action="{% url 'save_part_type_color' %}" class="hidden">
+	{% csrf_token %}
+</form>
+{% endblock %}
+
+{% if object.parts_types %}
+<p class="warning">Changing parts types' positions in a set type changes parts' positions in related sets' elements!</p>
+<p class="warning">Deleting is allowed only for a part type with the last position in a parts types list for a set type. If you want to delete a part type with not last position, put a choosen part type down to the last position in the list!</p>
+<p class="warning">Part type's deleting deletes all parts of this type with the matching position number in related sets' elements!</p>
+<h3>Part types:</h3>
+<h3>The set type contains {{object.parts_types.count}} parts types</h3>
+<hr>
+<table>
+	<tbody>
+	{% for part_type in object.parts_types %}
+		<tr>
+			<td class="position_up"><a href="{{ part_type.get_change_position_up_url }}">↑</a></td>
+			<td class="position_down"><a href="{{ part_type.get_change_position_down_url }}">↓</a></td>
+			<td class="content_item_text"><a href="{{ part_type.type.get_absolute_url }}">{{ part_type.position }}</a></td>
+			<td class="content_item_text"><a href="{{ part_type.type.get_absolute_url }}">{{ part_type }}</a></td>
+			<td class="item_color main_color">
+				<span title="Default main color" data-id="{{part_type.id}}" data-type="main_color"
+				{% if part_type.main_color %}
+					style="background-color: {{part_type.main_color}};
+					{% if part_type.main_color != 'white' %}border-color: {{part_type.main_color}};{% endif %}">
+				{% else %}
+					class="without_color">
+				{% endif %}
+				</span>
+			</td>
+			<td class="item_color background_color">
+				<span title="Default background color" data-id="{{part_type.id}}" data-type="background_color"
+				{% if part_type.background_color %}
+					style="background-color: {{part_type.background_color}};
+					{% if part_type.background_color != 'white' %}border-color: {{part_type.background_color}};{% endif %}">
+				{% else %}
+					class="without_color">
+				{% endif %}
+				</span>
+			</td>
+			{% if part_type.deleting_is_forbiden %}
+			<td class="delete_button blocked_button"><a>Delete</a></td>
+			{% else %}
+			<td class="delete_button"><a href="{{ part_type.get_delete_url }}">Delete</a></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<div class="warning"><span>No part types yet. All created elements in relates sets are without any part</span><a href="{{ object.get_add_part_type_in_set_type_url }}"></div>
+<div class="warning">Add the first part type</a><span> and you can create elements with parts or correct content of present elements</span></div>
+{% endif %}
+
+{% block back_button %}
+{{block.super}}
+{% endblock %}
+
+<div class="anti_footer"></div>
+
+{% endblock %}
+
+{% block footer_block %}
+<div class="footer">
+	<div class="big_button"><a href="{{ object.get_add_part_type_in_set_type_url }}" id="add_new_item_into_end">Add part type into the end</a></div>
+</div>
+{% endblock %}
+
+{% block scrips_block %}
+	<script src={% static "js/assign_part_type_color.js" %}></script>
+{% endblock %}

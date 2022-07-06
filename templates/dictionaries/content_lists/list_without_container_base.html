@@ -1,0 +1,20 @@
+{% extends "dictionaries/content_lists/list_base.html" %}
+
+{% block page_title %}
+{{ container_name }}
+{% endblock %}
+
+{% block zoom_container %}
+	<div class="zoom_container">
+		<div>{{ object.created_at }}</div>
+		{% if object.abstract %}
+			<div>{{ object.abstract }}</div>
+		{% else %}
+			<div class="faded">No abstract yet</div>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block no_content_yet %}
+	{% if add_new_item_into_end_url %} <div>No {{ content_field_name.lower }} yet. <a href="{{add_new_item_into_end_url}}">Add a new {{content_field_name.lower}}</a></div>{% endif %}
+{% endblock %}

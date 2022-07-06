@@ -1,0 +1,19 @@
+{% extends "dictionaries/delete_forms/delete_check_form.html" %}
+
+{% block question %}
+<p>Are you sure you want to delete the 
+{% if container_model_name %}
+	{% if container %}
+		{{content_model_name|slice:"-1"}}
+	{% else %}
+		{{content_model_name}}
+	{% endif %}
+{% else %}
+	{{content_model_name}}
+{% endif %} 
+"{{ object }}"
+{% if container_model_name %} out of {{ container_model_name }}{% if container %} "{{ container }}"{% endif %}{% endif %}?</p>
+{% endblock %}
+
+{% block warning %}
+{% endblock %}

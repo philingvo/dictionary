@@ -1,0 +1,15 @@
+<form method="post">{% csrf_token %}
+	{% if object.storage %}
+	<p>Are you sure you want to delete the subject "{{ object }}" out of the Dictionary?</p>
+	<p>After deleting you can't recover this subject!</p>
+	{% else %}
+	<p>Are you sure you want to delete the subject "{{ object }}" and put it in Storage?</p>
+	{% endif %}
+	<input type="submit" value="Confirm">
+</form>
+
+<a href="{{object.get_list_url}}">
+{% if object.storage %}Back to Subjects Storage
+{% else %} Back to Subjects
+{% endif %}
+</a>

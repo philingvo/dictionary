@@ -1,0 +1,314 @@
+.arrow_element {
+	margin: 0 5px;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+tr { 
+	border-top: 3px solid white;	
+}
+
+td {
+	padding: 5px;
+	border-radius: 5px;
+}
+
+td.empty_cell,
+td.position_up,
+td.position_down {
+	padding: 0;
+}
+
+.delete_button {
+	background-color: crimson;
+}
+
+.position_up a,
+.position_down a {
+	border-radius: 5px;
+	border: 1px solid gray;	
+	padding: 5px;
+}
+
+#container_object_title,
+.table_header a,
+.storage_button a,
+.content_item_text a,
+.button a,
+.delete_button a,
+.change_position_button a,
+.details a,
+.activate_button a,
+.position_up a,
+.position_down a,
+.position a {
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+#container_object_title {
+	color: blue;
+	padding: 5px;
+}
+
+/*.footer .big_button a:hover {
+	background-color: pink;
+}
+*/
+.position_up a,
+.position_down a,
+.position a,
+.content_item_text a {
+	color: black;
+}
+
+.zoom_container .part_text span,
+.text_part a {
+	text-shadow: 1px 1px 3px #666;
+}
+
+.storage_button a:hover {
+	text-decoration: none;
+}
+
+.table_header a:hover,
+.position a:hover,
+.content_item_text a:hover,
+.details a:hover,
+.button a:hover,
+.activate_button a:hover,
+.delete_button a:hover,
+.change_position_button a:hover {
+	text-decoration: underline;
+}
+
+.position_up a:hover {
+	background-color: lightgreen;
+}
+
+.position_down a:hover {
+	background-color: pink;
+}
+
+.change_position_button:active {
+	background-color: red;
+}
+
+.table_header a,
+.storage_button a,
+.delete_button a,
+.button a,
+.details a,
+.activate_button a,
+.change_position_button a {
+	color: white;
+}
+
+.table_header {
+	background-color: teal;
+	opacity: 0.3;
+}
+
+.details {
+	background-color: lightblue;
+}
+
+.activate_button {
+	background-color: green;
+}
+
+.change_position_button {
+	background-color: orange;
+}
+
+.blocked_button {
+	background-color: lightgray;
+}
+
+.faded,
+.faded a {
+	color: gray;
+}
+
+.blocked_button a:hover {
+	cursor: default;
+	text-decoration: none;
+	background-color: inherit;
+}
+
+.focused_element {
+	border-color: red;
+}
+
+.storage_button {
+	background-color: gold;
+}
+
+.start_element {
+	background-color: orange;
+}
+
+.end_element {
+	background-color: lightgreen;
+}
+
+.item_color span,
+.pallet_element {
+	border-radius: 5px;
+	border: 1px solid black;
+	display: inline-block;
+	width: 20px;
+	text-align: center;
+}
+
+span[style="background-color: white;"] {
+	border-color: black;
+}
+
+.pallet_element::after,
+.item_color span::after {
+	content: "\2003";
+}
+
+.without_color,
+.item_color span.without_color {
+	/*background-color: gray;*/
+	color: lightgray;
+}
+
+.without_color::after,
+.item_color span.without_color::after {
+	content: "N";
+}
+
+#pallet {
+	position: absolute;
+	background-color: white;
+	/*z-index: 1px;*/
+	border: 1px solid black;
+	padding: 5px;
+	max-width: 15%;
+	min-width: 10%;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0px;
+	left: 0;
+	right: 0;
+	background-color: #3498DB;
+	height: 40px;
+}
+
+.anti_footer {
+	padding-bottom: 40px;
+}
+
+.footer .big_button {
+	padding: 8px;
+	float: left;	
+}
+
+.footer .big_button a {
+	background-color: white;
+}
+
+#cancel_adding {
+	background-color: crimson;
+}
+
+#cancel_adding:hover {
+	background-color: red;
+}
+
+/*a[title]:hover:after {
+	content: attr(title);
+	border: 1px black solid;
+	border-radius: 5px;
+	padding: 5px;
+	background-color: red;
+	position: absolute;
+	font-size: 2em;
+}
+
+a.faded_field[title]:hover:after {
+	color: gray;
+	background-color: lightgray;
+}*/
+
+.zoom_container {
+	background-color: white;
+	border: 1px black solid;
+	border-radius: 5px;
+	padding: 5px;
+	position: absolute;
+	/*font-size: 1em;*/
+	display: none;
+	z-index: 2;
+}
+
+.position:hover .zoom_container,
+.content_item_text:hover .zoom_container {
+	display: block;
+}
+
+.zoom_container a {
+	/*float: left;*/
+}
+
+.zoom_container > hr {
+	padding: 0;
+}
+
+.part_text {
+	font-size: 2em;	
+} 
+
+.comment_text {
+	display: inline-block;
+}
+
+.edit_button,
+.pronounce_button {
+	/*float: left;*/
+	display: inline-block;
+	/*background-color: lightgray;*/
+	color: black;
+	border: 1px black solid;
+	border-radius: 5px;
+	/*margin-left: 5px;*/
+	padding: 0 5px 0 5px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+a.edit_button:hover,
+.edit_button:hover,
+a.pronounce_button:hover,
+.pronounce_button:hover {
+	text-decoration: none;
+	background-color: pink;
+}
+
+.pronounce_button.blocked {
+	background-color: lightgray;
+	border-color: gray;
+	color: gray;
+}
+
+.pronounce_button.blocked:hover {
+	background-color: lightgray;
+	cursor: none;
+}
+
+.hidden {
+	display: none;
+}
+/*.faded_field {
+	color: gray;*/
+	/*background-color: lightgray;*/
+/*}*/
+/*https://stackoverflow.com/questions/2011142/how-to-change-the-style-of-the-title-attribute-inside-an-anchor-tag*/

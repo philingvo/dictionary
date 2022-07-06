@@ -1,0 +1,55 @@
+{% extends "basic_template.html" %}
+
+{% block page_title_content %}
+Insert {{ model.content_field_name }} into the {{ model.container_field_name }}: {{ object }}
+{% endblock %}
+
+{% block css_styles %}
+{{ block.super }}
+{% endblock %}
+
+{% block front %}
+<div id="destination_model" class="hidden">{{ model.container_field_name }}</div>
+<h1>Insert {{ model.content_field_name }} into the {{ model.container_field_name }}: <span class="title">{{ object }}</span></h1>
+<form method="post">
+	{% csrf_token %}
+	<p>
+		<select id="select-subject" name="subject" title="Choose subject">
+			<option value=null>--- Choose subject ---</option>
+			<option value=null><<< Active subjects >>></option>
+			{% for subject_item in subjects.get_active_subjects %}
+			<option value="{{ subject_item.id }}"
+			{% if subject_item.color %}style="background-color: {{ subject_item.color }}"{% endif %}>
+				{{ subject_item.title }}
+			</option>
+			{% endfor %}
+			<option value=null><<< Storage subjects >>></option>
+			{% for subject_item in subjects.get_storage_subjects %}
+			<option value="{{ subject_item.id }}"
+			{% if subject_item.color %}style="background-color: {{ subject_item.color }}"{% endif %}>
+				{{ subject_item.title }}
+			</option>
+			{% endfor %}
+		</select>
+	</p>
+	<p id="topic-container"></p>
+	<p id="set-container"></p>
+	<p id="delete_checkbox" class="hidden">
+		<label for="remove_from_source">Remove {{ model.content_field_name }}(s) from the source {{ model.container_field_name }}</label>
+		<input type="checkbox" name="remove_from_source">
+	</p>
+	<input id="submit" type="submit" class="hidden" value="Insert {{ model.content_field_name }}(s)">	
+</form>
+
+{% block back_button %}
+<hr>
+<h3 class="big_button"><a href="{{ object.get_content_list_url }}">Back to {{ model.container_field_name }}</a></h3>
+{% endblock %}
+
+{% endblock %}
+
+{% block scrips_block %}
+	{% load static %}
+	<script src={% static "js/insert_item_into_container.js" %}></script>
+{% endblock %}
+<!-- </html> -->

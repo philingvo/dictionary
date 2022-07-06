@@ -1,0 +1,13 @@
+<h1>Element: <a href='{{ element.get_content_list_url }}'>{{ element }}</a></h1>
+<h2>Sets containing this element:</h2>
+<ul>
+{% for element in object_list %}
+	<li>
+		<span>{{ element.set }}</span>
+		<a href='{{ element.set.get_content_list_url }}'>Elements list</a>
+		<a href='{{ element.set.get_absolute_url }}'>Definition</a>
+	</li>
+{% empty %}
+	<li>This element hasn't been put into any set yet.</li>
+{% endfor %}
+</ul>

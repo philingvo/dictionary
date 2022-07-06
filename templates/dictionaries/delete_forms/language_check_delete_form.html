@@ -1,0 +1,7 @@
+<form method="post">{% csrf_token %}
+	<p>Are you sure you want to delete the language "{{ object }}"?</p>
+	<p>After deleting you can't recover this language!</p>
+	<input type="submit" value="Confirm">
+</form>
+
+<a href="{{object.get_list_url}}">Back to Languages</a>

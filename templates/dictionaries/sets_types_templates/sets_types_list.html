@@ -1,0 +1,50 @@
+{% extends "basic_template.html" %}
+
+{% block page_title %}
+{{ container_name }}
+{% endblock %}
+
+{% block page_title_content %}
+{{ container_name }}
+{% endblock %}
+
+{% block css_styles %}
+{{block.super}}
+{% load static %}
+<link href="{% static "css/list.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block front %}
+{% block container_block %}
+<h1 id="container_name">{{ container_name }}</h1>
+<h3>There are {{ object_list.count }} {{ container_name.lower }}</h3>
+{% endblock %}
+<p class="warning">Set type's deleting is not possible when there are sets with a choosen set types and a choosen set type doesn't have any part types.
+If you really want to delete a set type, delete sets with a choosen set type and all included part types in a choosen set type!</p>
+{% if object_list %}
+<hr>
+<table>
+	<tbody>
+	{% for object in object_list %}
+		<tr>
+			<td class="content_item_text"><a href="{{object.get_absolute_url}}">{{ object }}</a></td>
+			<td class="details"><a href="{{object.get_containers_list_url}}">Sets</a></td>
+			{% if not object.ready_to_delete %}
+			<td class="delete_button blocked_button"><a>Delete</a></td>
+			{% else %}
+			<td class="delete_button"><a href="{{object.get_delete_url}}">Delete</a></td>
+			{% endif %}
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<div>No Set Types yet. <a href="{{ add_new_item_into_end_url }}">Add the first one</a></div>
+{% endif %}
+{% endblock %}
+
+{% block footer_block %}
+<div class="footer">
+	<div class="big_button"><a id="add_new_item" href="{{ add_new_item_into_end_url }}">Add new set type</a></div>
+</div>
+{% endblock %}
