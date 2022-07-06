@@ -2,7 +2,7 @@
 
 ![Philingvo Logo](https://user-images.githubusercontent.com/108828980/177620920-a224e706-581a-4cfe-a0db-082f95e7a01a.png)
 
-This is the **Dictionary server** for the Philingvo project.
+This is the **Dictionary server** for the **Philingvo** project.
 
 This is a real website based on the Django framework. So user performs main activities on web pages of the site.
 User manually creates sets of words or expressions that are used for activity with the LED ticker.
