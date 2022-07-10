@@ -1,0 +1,47 @@
+.button.correct_button {
+	background-color: orange;
+}
+
+.choose_button,
+.button.choosen_file {
+	background-color: olive;
+}
+
+.file_button {
+	background-color: lightblue;
+}
+
+.button.random_file {
+	background-color: navy;
+}
+
+.created_at {
+	color: blue;
+}
+
+.upload_button {
+	background-color: brown;
+}
+
+.show_pronunciation_files_list {
+	background-color: crimson;	
+}
+
+.choosen {
+	background-color: lime;
+}
+
+.button {
+	text-align: center;
+	border-radius: 5px;
+}
+
+.choosen,
+.button a {
+	color: white;
+	text-decoration: none;
+}
+
+.button:hover a {
+	text-decoration: underline;	
+}
