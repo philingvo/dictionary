@@ -129,7 +129,7 @@
 		
 	{% block footer_block %}
 	<div class="footer">
-		<div class="big_button"><a id="add_new_item">Add new {{ content_field_name.lower }}</a></div>
+		<div class="big_button"><a {% if not object_list %} href="{{ add_new_item_into_end_url }}"{% endif %} id="add_new_item">Add new {{ content_field_name.lower }}</a></div>
 		<div class="big_button"><a href="{{ add_new_item_into_end_url }}" id="add_new_item_into_end">Add new {{ content_field_name.lower }} into end</a></div>
 		
 		{% block footer_block_extension %}
