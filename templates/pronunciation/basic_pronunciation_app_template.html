@@ -1,0 +1,20 @@
+{% extends "basic_template.html" %}
+
+{% block css_styles %}
+	{% load static %}
+	{{ block.super }}
+	<link href="{% static 'css/pronunciation_styles.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block page_title %}
+{{title}}
+{% endblock %}
+
+{% block header_menu %}
+	<div id="header">
+		<div class="menu_button"><a href="{% url 'pronunciations_list' %}">Pronunciations</a></div>
+		<div class="menu_button"><a href="{% url 'pronunciations_files_list' %}">Pronunciation Files</a></div>
+		<div class="menu_button"><a href="{% url 'show_subjects' %}">Dictionary</a></div>
+	</div>
+	<div id="anti_header"></div>
+{% endblock %}

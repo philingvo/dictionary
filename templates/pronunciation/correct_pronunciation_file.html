@@ -1,0 +1,22 @@
+{% extends "pronunciation/correct_form_template.html" %}
+
+{% block footer %}
+<div>
+	{% if object.choosen %}
+		<span style="color: green;">Choosen</span>
+	{% else %}
+		<a href="{{object.get_set_file_as_current}}">Choose</a>
+	{% endif %}
+</div>
+<div>
+	<audio controls preload="none">
+		<source src="{{object.get_play_file_url}}" type="audio/mpeg">
+	</audio>
+</div>
+<div>
+	<a href="{{object.get_play_file_url}}">Open file</a>
+</div>
+<div>
+	<a href="{{object.pronunciation.get_pronunciation_files_list_url}}">Back to pronunciation files list page</a>
+</div>
+{% endblock %}

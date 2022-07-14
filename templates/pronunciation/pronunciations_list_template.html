@@ -1,0 +1,47 @@
+{% extends "pronunciation/list_template.html" %}
+
+{% block table_header %}
+<tr>
+	<th>
+		Text
+		<a title="ascending order by text" href="?order=ascending{{order_querysting}}">↑</a>
+		<a title="descending order by text" href="?order=descending{{order_querysting}}">↓</a>
+	</th>
+</tr>
+{% endblock %}
+
+{% block row %}
+	<tr>
+		<td>
+			<a href="{{object.get_absolute_url}}" title="{{object}}">
+				{{object.get_text_for_outputting}}
+			</a>
+		</td>
+		<td>
+			<audio controls preload="none">
+				<source src="{{object.get_pronounce_url}}" type="audio/mpeg">
+			</audio>
+		</td>
+		<td class="button correct_button">
+			<a href="{{object.get_correct_page_url}}">Correct</a>
+		</td>
+		<td class="button choosen_file">
+			<a href="{{object.get_pronounce_url}}">Choosen file</a>
+		</td>
+		<td class="button random_file">
+			<a href="{{object.get_random_pronounce_url}}">Random file</a>
+		</td>
+		<td class="delete_button">
+			<a href="{{object.get_delete_url}}">Delete</a>
+		</td>
+		<td class="created_at">
+			{{object.created_at}}
+		</td>
+	</tr>
+{% endblock %}
+
+{% block footer_block %}
+	<div class="footer">
+		<div class="big_button"><a href="{{url}}">Add new {{title}}</a></div>
+	</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "pronunciation/list_template.html" %}
+
+{% block title %}
+{{title}} {{pronunciation}}
+{% endblock %}
+
+{% block container_name %}
+	<h1><span>{{title}} </span><a href="{{pronunciation.get_absolute_url}}">{{pronunciation}}</a></h1>
+{% endblock %}
+
+{% block table %}
+
+<table>
+	<tr>
+		<th>Source</th>
+		<th>Accent</th>
+	</tr>
+{% for pronunciation_file in pronunciation_files %}
+	<tr>
+		<td>
+			{{pronunciation_file.source}}
+		</td>
+		<td>
+			{{pronunciation_file.accent}}
+		</td>
+		{% if pronunciation_file.choosen %}
+		<td class="button choosen">
+			Choosen
+		</td>
+		{% else %}
+		<td class="button choose_button">
+			<a href="{{pronunciation_file.get_set_file_as_current}}">Choose</a>
+		</td>
+		{% endif %}
+		<td>
+			<audio controls preload="none">
+				<source src="{{pronunciation_file.get_play_file_url}}" type="audio/mpeg">
+			</audio>
+		</td>
+		<td class="button correct_button">
+			<a href="{{pronunciation_file.get_correct_page_url}}">Correct</a>
+		</td>
+		<td class="button file_button">
+			<a href="{{pronunciation_file.get_play_file_url}}">Open file</a>
+		</td>
+		<td class="delete_button">
+			<a href="{{pronunciation_file.get_delete_url}}">Delete</a>
+		</td>
+		<td class="created_at">
+			{{pronunciation_file.created_at}}
+		</td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+
+{% block paginator %}
+{% endblock %}
+
+{% block footer_block %}
+	<div class="footer">
+		<div class="big_button">
+			<a href="{{pronunciation.get_add_pronunciation_file_url}}">Upload a new pronunciation file</a>
+		</div>
+	</div>
+{% endblock %}

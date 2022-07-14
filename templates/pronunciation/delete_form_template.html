@@ -1,0 +1,12 @@
+{% extends "pronunciation/basic_pronunciation_app_template.html" %}
+
+{% block front %}
+	<form method="post">{% csrf_token %}
+		<p>Are you sure you want to delete the {{content_model_name}} "{{ object }}"?</p>
+		<p><label for="delete_file">Delete related audio files from a storage</label>
+		<input type="checkbox" name="delete_file" checked></p>
+		<p><input type="submit" value="Confirm"></p>
+	</form>
+
+	<a href="{{object.get_absolute_url}}">Back to {{content_model_name}}</a>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "pronunciation/basic_pronunciation_app_template.html" %}
+
+{% block front %}
+
+<h1>{{ pronunciation.text }}</h2>
+<h2>{{ pronunciation.language }}</h2>
+
+<form method="post">
+	{% csrf_token %}
+	<p>
+		<input type="hidden" name="pronunciation_id" id="pronunciation_id" required value="{{pronunciation.id}}">
+	</p>
+	<p>{{pronunciation.created_at}}</p>
+	<p>
+		<label for="current_pronunciation">Current pronunciation</label>
+		<select name="current_pronunciation" id="current_pronunciation" required>
+		{% for pronunciation_file in pronunciation_list %}
+			<option
+			{% if pronunciation_file.2 == choosen_pronunciation_file.id %}
+				selected
+			{% endif %}
+			{% if pronunciation_file.2 %}
+				value="{{pronunciation_file.2}}"
+			{% endif %}
+			>{{ pronunciation_file.0 }}: {{pronunciation_file.1}}
+			</option>
+		{% endfor %}
+		</select>
+	</p>
+	<p>
+		<input type="submit" value="Set">
+	</p>
+	<div>
+		<audio controls preload="none">
+			<source src="{{pronunciation.get_pronounce_url}}" type="audio/mpeg">
+		</audio>
+	</div>
+	<!-- <div>
+		https://codepen.io/craigstroman/pen/aOyRYx
+		https://developer.mozilla.org/ru/docs/Web/HTML/Element/audio
+		<audio controls preload="none">
+		{% for other_file in pronunciation.get_pronunciation_files_queryset %}
+			<source src="{{other_file.get_play_file_url}}" type="audio/mpeg">
+		{% endfor %}
+		</audio>
+	</div> -->
+	<div class="button choosen_file">
+		<a href="{{pronunciation.get_pronounce_url}}">Open choosen file</a>
+	</div>
+	<div class="button upload_button">
+		<a href="{{pronunciation.get_add_pronunciation_file_url}}">Upload a new pronunciation file</a>
+	</div>
+	<div class="button show_pronunciation_files_list">
+		<a href="{{pronunciation.get_pronunciation_files_list_url}}">Show pronunciation files list</a>
+	</div>
+	<div class="button correct_button">
+		<a href="{{pronunciation.get_correct_page_url}}">Correct</a>
+	</div>
+</form>
+
+{% endblock %}

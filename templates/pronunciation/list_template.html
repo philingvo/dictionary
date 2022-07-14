@@ -1,0 +1,76 @@
+{% extends "pronunciation/basic_pronunciation_app_template.html" %}
+
+{% block css_styles %}
+	{% load static %}
+	{{ block.super }}
+	<link href="{% static 'css/list.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block front %}
+	{% block container_name %}
+	<h1 id="container_name">{{title}}</h1>
+	{% endblock %}
+
+	{% block searching_form %}
+	<form method='GET' action='.'>
+		<input type="text" name="{{searching_param_name}}" data-toggle="popover"
+							placeholder="Search {{title.lower}}" value="{{previous_searching_request}}" title="Press enter to search" autofocus="autofocus">
+	</form>
+	{% endblock %}
+
+	{% block items_on_page %}
+		<p>
+		{% for pages_value in items_on_page_list %}
+			<a href="?{{paginate_by_param_name}}={{pages_value}}{{paginate_querysting}}">{{pages_value}}</a>
+		{% endfor %}
+		</p>
+	{% endblock %}
+
+	{% block paginator %}
+	<div class="pagination">
+		
+		<span class="step-links">
+			{% if page_obj.has_previous %}
+				<a href="?{{page_param_name}}=1{{page_querysting}}">&laquo; first</a>
+				<a href="?{{page_param_name}}={{ page_obj.previous_page_number }}{{page_querysting}}">previous</a>
+			{% endif %}
+
+			<span class="current">
+				Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+			</span>
+
+			{% if page_obj.has_next %}
+				<a href="?{{page_param_name}}={{ page_obj.next_page_number }}{{page_querysting}}">next</a>
+				<a href="?{{page_param_name}}={{ page_obj.paginator.num_pages }}{{page_querysting}}">last &raquo;</a>
+			{% endif %}
+		</span>
+	</div>
+	{% endblock %}
+
+	{% block table %}
+	<table>
+
+	{% block table_header %}
+	{% endblock %}
+
+	{% for object in object_list %}
+		{% block row %}
+		<tr>
+			<td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
+			<td>
+				<audio controls preload="none">
+					<source src="{{object.get_pronounce_url}}" type="audio/mpeg">
+				</audio>
+			</td>
+			<td><a href="{{object.get_pronounce_url}}">Open file</a></td>
+			<td><a href="{{object.get_delete_url}}">Delete</a></td>
+		</tr>
+		{% endblock %}
+	{% empty %}
+		<p>No pronunciations yet</p>
+	{% endfor %}
+	</table>
+	{% endblock %}
+
+
+{% endblock %}

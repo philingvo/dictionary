@@ -1,0 +1,13 @@
+{% extends "pronunciation/basic_pronunciation_app_template.html" %}
+
+{% block front %}
+<h1><span>{{title}} </span><a href="{{object.get_absolute_url}}">{{object}}</a></h1>
+
+<form id="form" method="post">
+	{% csrf_token %}
+	<table>
+	{{ form.as_table }}
+	</table>
+	<input type="submit" value="Update">
+</form>
+{% endblock %}
