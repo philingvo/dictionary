@@ -122,11 +122,9 @@ class ListView(ListView):
 
 		searching_param_value = self.request.GET.get(searching_param_name, None)
 		order_param_value = self.request.GET.get(order_param_name, None)
-		page_param_value = self.request.GET.get(page_param_name, None)
-		paginate_by = self.request.GET.get(paginate_by_param_name, None)
-
-		if paginate_by:
-			self.paginate_by = paginate_by
+		page_param_value = self.request.GET.get(page_param_name, 1)
+		paginate_by = self.request.GET.get(paginate_by_param_name, self.paginate_by)
+		self.paginate_by = paginate_by
 
 		querysting_dict = {}
 		self.extra_context = {}
