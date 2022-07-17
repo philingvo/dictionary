@@ -15,3 +15,7 @@ All project's software parts:
 3. [Dictionary](https://github.com/philingvo/dictionary)
 
 project.philingvo@gmail.com
+
+https://youtube.com/channel/UCkObkfT1lGT-y0SOVYLwsvg
+
+https://www.flickr.com/photos/196150690@N08/
